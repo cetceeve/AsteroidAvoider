@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RadRacer" type="Applet" factoryName="Applet" singleton="true">
+    <option name="HTML_USED" value="false" />
+    <option name="MAIN_CLASS_NAME" value="AsteroidAvoider" />
+    <option name="WIDTH" value="400" />
+    <option name="HEIGHT" value="300" />
+    <option name="POLICY_FILE" value="file://$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+    <module name="OOP-WS17-18_Studienleistung-2-Starter">
+      <option name="moduleName" value="OOP-WS17-18_Studienleistung-2-Starter" />
+    </module>
+    <method />
+  </configuration>
+</component>

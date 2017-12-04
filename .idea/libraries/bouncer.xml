@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="bouncer">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/bouncer.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ProcessingOO-3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
