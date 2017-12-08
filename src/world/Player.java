@@ -1,10 +1,11 @@
 package world;
 
 import constants.Constants;
+import de.ur.mi.geom.Point;
 import de.ur.mi.graphics.GraphicsObject;
 import de.ur.mi.graphics.Image;
 
-public class Player extends GraphicsObject{
+public class Player extends GraphicsObject implements Collidable{
     private Image representation;
     private double movementDirX = 0;
     private double movementDirY = 0;
@@ -42,5 +43,33 @@ public class Player extends GraphicsObject{
     public void moveRight() {
         movementDirX = 1;
         movementDirY = 0;
+    }
+
+    @Override
+    public boolean hasLeftScreen() {
+        return false;
+    }
+
+    @Override
+    public boolean hasCollidedWith(Collidable other) {
+        if (hitTest(other.getHitBox())) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean hitTest(Point[] hitBox) {
+        for (int i = 0; i < hitBox.length; i++) {
+            if (this.hitTest(hitBox[i].getX(), hitBox[i].getY())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Point[] getHitBox() {
+        return null;
     }
 }
