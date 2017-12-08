@@ -12,6 +12,7 @@ public class AsteroidAvoider extends GraphicsApp {
 
     public static final int WIDTH = 1280;
     public static final int HEIGHT = 960;
+    private static final int FRAME_RATE = 60;
 
     private GameManager gameManager;
 
@@ -26,10 +27,13 @@ public class AsteroidAvoider extends GraphicsApp {
 
     private void setupCanvas() {
         size(WIDTH, HEIGHT);
+        frameRate(FRAME_RATE);
+        smooth();
     }
 
     public void draw() {
         background(Color.LIGHT_GRAY);
+        gameManager.update();
         gameManager.draw();
     }
 

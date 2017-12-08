@@ -31,6 +31,7 @@ public class GameManager {
     }
 
     public void update() {
+        level.update();
     }
 
     public void draw() {
