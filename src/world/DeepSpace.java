@@ -5,8 +5,8 @@ import de.ur.mi.graphics.Image;
 public class DeepSpace {
     //constants
     private static final String DEEP_SPACE_IMAGE = "data/assets/deepspace_blue.jpg";
-    private static final int IMAGE_START_X = -800;
-    private static final int IMAGE_START_Y = -420;
+    private static final float IMAGE_START_X = -800f;
+    private static final float IMAGE_START_Y = -420f;
     // Instance variables
     private Image deepSpace;
     private float imagePosY = IMAGE_START_Y;
@@ -16,7 +16,7 @@ public class DeepSpace {
     }
 
     public void update() {
-        imagePosY += 0.01;
+        imagePosY += 0.1f;
         deepSpace.setPosition(IMAGE_START_X, imagePosY);
     }
 
