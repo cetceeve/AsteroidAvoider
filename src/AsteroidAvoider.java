@@ -10,8 +10,8 @@ import processing.event.KeyEvent;
 
 public class AsteroidAvoider extends GraphicsApp {
 
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 800;
+    public static final int WIDTH = 1280;
+    public static final int HEIGHT = 960;
 
     private GameManager gameManager;
 
