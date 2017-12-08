@@ -18,5 +18,13 @@ public final class Constants{
     public static final int PLAYER_RIGHT_INPUT = 4;
     public static final int PLAYER_RESET_INPUT = 5;
 
-    public static final int PLAYER_MOVEMENT_SPEED = 3;
+    public static final int PLAYER_MOVEMENT_SPEED = 5;
+
+    public static final int OBSTACLE_MIN_SIZE = 50;
+    public static final int OBSTACLE_PER_ROW = 4;
+    public static final int OBSTACLE_SPEED = 1;
+    public static final int TOTAL_OBSTACLE_NUM = OBSTACLE_PER_ROW * 5;
+    public static final int VIRTUAL_GRID_HEIGHT = 120;
+    public static final int VIRTUAL_GRID_WIDTH = 160;
+    public static final int VIRTUAL_GRID_COLUMN_NUM = 8;
 }

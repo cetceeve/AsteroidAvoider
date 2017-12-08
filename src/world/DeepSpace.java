@@ -16,7 +16,7 @@ public class DeepSpace {
     }
 
     public void update() {
-        imagePosY += 0.1f;
+        imagePosY += 0.5f;
         deepSpace.setPosition(IMAGE_START_X, imagePosY);
     }
 

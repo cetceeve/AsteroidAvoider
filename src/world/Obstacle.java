@@ -1,19 +1,22 @@
 package world;
 
+import constants.Constants;
 import de.ur.mi.geom.Point;
 import de.ur.mi.graphics.Color;
 import de.ur.mi.graphics.Ellipse;
-import static constants.Constants.*;
 
 public class Obstacle implements Collidable {
     private Ellipse obstacle;
+    private int obstacleSize;
 
-    public Obstacle() {
-        obstacle = new Ellipse(600, -100, 100, 100, Color.GRAY);
+    public Obstacle(int posX, int posY, int size) {
+        obstacle = new Ellipse(posX, posY, size, size, Color.GRAY);
+        obstacle.setBorder(Color.GRAY, 0.0);
+        obstacleSize = size;
     }
 
     public void update() {
-        obstacle.move(0, 2);
+        obstacle.move(0, Constants.OBSTACLE_SPEED);
     }
 
     public void draw() {
@@ -31,11 +34,7 @@ public class Obstacle implements Collidable {
 
     @Override
     public boolean hasLeftScreen() {
-        if (obstacle.getY() >= CANVAS_HEIGHT + 50) {
-            obstacle.setPosition(600, -100);
-            return true;
-        }
-        return false;
+        return obstacle.getY() >= Constants.CANVAS_HEIGHT + obstacleSize / 2;
     }
 
     @Override
@@ -46,10 +45,10 @@ public class Obstacle implements Collidable {
     @Override
     public Point[] getHitBox() {
         Point[] hitBox = new Point[4];
-        hitBox[0] = new Point(obstacle.getX() - 50, obstacle.getY());
-        hitBox[1] = new Point(obstacle.getX() + 50, obstacle.getY());
-        hitBox[2] = new Point(obstacle.getX(), obstacle.getY() - 50);
-        hitBox[3] = new Point(obstacle.getX(), obstacle.getY() + 50);
+        hitBox[0] = new Point(obstacle.getX() - obstacleSize/2, obstacle.getY());
+        hitBox[1] = new Point(obstacle.getX() + obstacleSize/2, obstacle.getY());
+        hitBox[2] = new Point(obstacle.getX(), obstacle.getY() - obstacleSize/2);
+        hitBox[3] = new Point(obstacle.getX(), obstacle.getY() + obstacleSize/2);
         return hitBox;
     }
 }
