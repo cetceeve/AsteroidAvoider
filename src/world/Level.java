@@ -12,16 +12,19 @@ public class Level {
     private Player player;
     private GameEventListener gameManager;
 
-    private static int obstaclePerRow = 4;
-    private static int totalObstacleNum = obstaclePerRow * Constants.VIRTUAL_GRID_ROW_NUM;
-    private static int obstacleSpeed = 5;
+    private int obstaclesPerRow;
+    private int totalObstacleNum;
+    private int obstacleSpeed;
 
     private int currentObstacle = 0;
     private int countDrawCalls = 0;
     private int countRowCreation = 0;
 
-    public Level(GameEventListener gameManager) {
+    public Level(GameEventListener gameManager, int obstaclesPerRow, int obstacleSpeed) {
         this.gameManager = gameManager;
+        this.obstaclesPerRow = obstaclesPerRow;
+        this.obstacleSpeed = obstacleSpeed;
+        totalObstacleNum = obstaclesPerRow * Constants.VIRTUAL_GRID_ROW_NUM;
         randomGenerator = RandomGenerator.getInstance();
         deepSpace = new DeepSpace();
         obstacles = new Obstacle[totalObstacleNum];
@@ -91,12 +94,12 @@ public class Level {
         if (currentObstacle == totalObstacleNum) {
             currentObstacle = 0;
         }
-        for (int i = currentObstacle; i < currentObstacle + obstaclePerRow; i++) {
+        for (int i = currentObstacle; i < currentObstacle + obstaclesPerRow; i++) {
             if (obstacles[i] == null) {
                 obstacles[i] = nextObstacle();
             }
         }
-        currentObstacle += obstaclePerRow;
+        currentObstacle += obstaclesPerRow;
     }
 
     private Obstacle nextObstacle() {

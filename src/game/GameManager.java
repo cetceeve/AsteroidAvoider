@@ -17,7 +17,7 @@ public class GameManager implements GameEventListener{
     }
 
     private void setupGameObjects() {
-        level = new Level(this);
+        level = new Level(this, 3, 2);
         userInterface = new UserInterface();
     }
 
@@ -48,5 +48,8 @@ public class GameManager implements GameEventListener{
     public void playerPassed() {
         passedObstacles++;
         userInterface.setPassedObstacles(passedObstacles);
+        if (passedObstacles % 100 == 0) {
+            userInterface.setLevelNum(passedObstacles/100 + 1);
+        }
     }
 }

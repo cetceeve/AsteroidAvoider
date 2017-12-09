@@ -6,7 +6,7 @@ import de.ur.mi.graphics.GraphicsObject;
 import de.ur.mi.graphics.Image;
 
 public class Player extends GraphicsObject implements Collidable {
-    public static int playerMovementSpeed = 6;
+    public int playerMovementSpeed = 4;
     private Image representation;
     private double movementDirX = 0;
     private double movementDirY = 0;
