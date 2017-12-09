@@ -27,6 +27,10 @@ public class Obstacle implements Collidable {
         obstacle.setColor(Color.RED);
     }
 
+    public void setPos(int posX, int poxY) {
+        obstacle.setPosition(posX, poxY);
+    }
+
     @Override
     public boolean hasCollidedWith(Collidable other) {
         return false;

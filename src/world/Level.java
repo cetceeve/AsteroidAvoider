@@ -9,32 +9,38 @@ public class Level {
     private static final int PLAYER_START_X = 400;
     private static final int PLAYER_START_Y = 700;
 
-    //private DeepSpace deepSpace;
+    private DeepSpace deepSpace;
     private Obstacle obstacles[];
     private Player player;
     private int currentObstacle = 0;
     private RandomGenerator randomGenerator;
     private int countDrawCalls = 0;
+    private int countRowCreation = 0;
 
     public Level() {
         randomGenerator = RandomGenerator.getInstance();
-        //deepSpace = new DeepSpace();
+        deepSpace = new DeepSpace();
         obstacles = new Obstacle[Constants.TOTAL_OBSTACLE_NUM];
         createRow();
         player = new Player(PLAYER_START_X, PLAYER_START_Y);
     }
 
     public void update() {
-        if ((++countDrawCalls * Constants.OBSTACLE_SPEED) % (Constants.VIRTUAL_GRID_HEIGHT * 2) == 0) {
+        if ((++countDrawCalls * Constants.OBSTACLE_SPEED) % (Constants.VIRTUAL_GRID_HEIGHT * 2) == 0 && countRowCreation < Constants.ROW_NUM) {
             createRow();
+            countRowCreation++;
             countDrawCalls = 0;
         }
-        //deepSpace.update();
+        deepSpace.update();
         player.update();
         for (int i = 0; i < Constants.TOTAL_OBSTACLE_NUM; i++) {
             try {
                 if (player.hasCollidedWith(obstacles[i])) {
                     obstacles[i].recolor();
+                }
+                if (obstacles[i].hasLeftScreen()) {
+                    int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.VIRTUAL_GRID_HEIGHT);
+                    obstacles[i].setPos(obstaclePosX(obstacleSize), obstaclePosY());
                 }
                 obstacles[i].update();
             } catch (NullPointerException e) {
@@ -45,7 +51,7 @@ public class Level {
     }
 
     public void draw() {
-        //deepSpace.draw();
+        deepSpace.draw();
         player.draw();
         for (int i = 0; i < Constants.TOTAL_OBSTACLE_NUM; i++) {
             try {
@@ -100,7 +106,7 @@ public class Level {
 
     private int obstaclePosY() {
         int randomDeviationY = randomGenerator.nextInt(0, Constants.VIRTUAL_GRID_HEIGHT);
-        int virtalGridSpawnRow = -1 * Constants.VIRTUAL_GRID_HEIGHT;
+        int virtalGridSpawnRow = -1 * Constants.VIRTUAL_GRID_HEIGHT * 2;
         return virtalGridSpawnRow + randomDeviationY;
     }
 }

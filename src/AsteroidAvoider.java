@@ -25,7 +25,7 @@ public class AsteroidAvoider extends GraphicsApp {
     }
 
     public void draw() {
-        background(Color.BLACK);
+        //background(Color.BLACK);
         gameManager.update();
         gameManager.draw();
     }
