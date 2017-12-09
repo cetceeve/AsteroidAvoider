@@ -2,18 +2,22 @@ package world;
 
 import constants.Constants;
 import de.ur.mi.util.RandomGenerator;
+import game.GameEventListener;
 
 public class Level {
 
+    private RandomGenerator randomGenerator;
     private DeepSpace deepSpace;
     private Obstacle obstacles[];
     private Player player;
+    private GameEventListener gameManager;
+
     private int currentObstacle = 0;
-    private RandomGenerator randomGenerator;
     private int countDrawCalls = 0;
     private int countRowCreation = 0;
 
-    public Level() {
+    public Level(GameEventListener gameManager) {
+        this.gameManager = gameManager;
         randomGenerator = RandomGenerator.getInstance();
         deepSpace = new DeepSpace();
         obstacles = new Obstacle[Constants.totalObstacleNum];
@@ -32,9 +36,11 @@ public class Level {
         for (int i = 0; i < Constants.totalObstacleNum; i++) {
             try {
                 if (player.hasCollidedWith(obstacles[i])) {
+                    gameManager.playerCollided();
                     obstacles[i].recolor();
                 }
                 if (obstacles[i].hasLeftScreen()) {
+                    gameManager.playerPassed();
                     int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.VIRTUAL_GRID_HEIGHT);
                     obstacles[i].setPos(obstaclePosX(obstacleSize), obstaclePosY());
                 }

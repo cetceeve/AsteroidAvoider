@@ -1,8 +1,8 @@
-import de.ur.mi.graphics.Color;
 import de.ur.mi.graphicsapp.*;
 import java.awt.event.KeyEvent;
 
 import game.GameManager;
+
 import static constants.Constants.*;
 
 public class AsteroidAvoider extends GraphicsApp {

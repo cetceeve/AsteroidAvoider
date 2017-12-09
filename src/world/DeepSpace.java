@@ -16,6 +16,7 @@ public class DeepSpace {
     }
 
     public void update() {
+        // TODO: Partikel
         //imagePosY += 0.5f;
         //deepSpace.setPosition(IMAGE_START_X, imagePosY);
     }
