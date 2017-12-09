@@ -28,22 +28,4 @@ public final class Constants{
     public static final int VIRTUAL_GRID_WIDTH = 160;
     public static final int VIRTUAL_GRID_COLUMN_NUM = 8;
     public static final int VIRTUAL_GRID_ROW_NUM = 5;
-
-    // TODO: irgendwo anders speichern (code qualität)
-    public static int playerMovementSpeed = 4;
-    public static int obstaclePerRow = 4;
-    public static int obstacleSpeed = 3;
-    public static int totalObstacleNum = obstaclePerRow * VIRTUAL_GRID_ROW_NUM;
-
-    public void setPlayerMovementSpeed(int plSpeed) {
-        playerMovementSpeed = plSpeed;
-    }
-
-    public void setObstaclePerRow(int amount) {
-        obstaclePerRow = amount;
-    }
-
-    public void setObstacleSpeed(int obSpeed) {
-        obstacleSpeed = obSpeed;
-    }
 }

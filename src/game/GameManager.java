@@ -8,8 +8,8 @@ import world.Level;
 public class GameManager implements GameEventListener{
 
     private Level level;
+    private UserInterface userInterface;
     private boolean levelFullStop = false;
-    private Label label;
     private Integer passedObstacles = 0;
 
     public GameManager() {
@@ -18,19 +18,19 @@ public class GameManager implements GameEventListener{
 
     private void setupGameObjects() {
         level = new Level(this);
-        label = new Label(10, 50, "0", Color.WHITE, 50);
+        userInterface = new UserInterface();
     }
 
     public void update() {
         if (!levelFullStop) {
             level.update();
         }
-        label.setText(passedObstacles.toString());
+        userInterface.update();
     }
 
     public void draw() {
         level.draw();
-        label.draw();
+        userInterface.draw();
     }
 
     public void handleEvent(int inputEvent) {
@@ -47,5 +47,6 @@ public class GameManager implements GameEventListener{
     @Override
     public void playerPassed() {
         passedObstacles++;
+        userInterface.setPassedObstacles(passedObstacles);
     }
 }

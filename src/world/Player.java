@@ -6,6 +6,7 @@ import de.ur.mi.graphics.GraphicsObject;
 import de.ur.mi.graphics.Image;
 
 public class Player extends GraphicsObject implements Collidable {
+    public static int playerMovementSpeed = 6;
     private Image representation;
     private double movementDirX = 0;
     private double movementDirY = 0;
@@ -16,7 +17,7 @@ public class Player extends GraphicsObject implements Collidable {
     }
 
     public void update() {
-        this.move(movementDirX * Constants.playerMovementSpeed, movementDirY * Constants.playerMovementSpeed);
+        this.move(movementDirX * playerMovementSpeed, movementDirY * playerMovementSpeed);
         checkWallCollision();
         representation.setPosition(this.getX(), this.getY());
     }

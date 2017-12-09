@@ -12,6 +12,10 @@ public class Level {
     private Player player;
     private GameEventListener gameManager;
 
+    private static int obstaclePerRow = 4;
+    private static int totalObstacleNum = obstaclePerRow * Constants.VIRTUAL_GRID_ROW_NUM;
+    private static int obstacleSpeed = 5;
+
     private int currentObstacle = 0;
     private int countDrawCalls = 0;
     private int countRowCreation = 0;
@@ -20,20 +24,20 @@ public class Level {
         this.gameManager = gameManager;
         randomGenerator = RandomGenerator.getInstance();
         deepSpace = new DeepSpace();
-        obstacles = new Obstacle[Constants.totalObstacleNum];
+        obstacles = new Obstacle[totalObstacleNum];
         createRow();
         player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y);
     }
 
     public void update() {
-        if ((++countDrawCalls * Constants.obstacleSpeed) % (Constants.VIRTUAL_GRID_HEIGHT * 2) == 0 && countRowCreation < Constants.VIRTUAL_GRID_ROW_NUM) {
+        if ((++countDrawCalls * obstacleSpeed) % (Constants.VIRTUAL_GRID_HEIGHT * 2) == 0 && countRowCreation < Constants.VIRTUAL_GRID_ROW_NUM) {
             createRow();
             countRowCreation++;
             countDrawCalls = 0;
         }
         deepSpace.update();
         player.update();
-        for (int i = 0; i < Constants.totalObstacleNum; i++) {
+        for (int i = 0; i < totalObstacleNum; i++) {
             try {
                 if (obstacles[i].hasLeftScreen()) {
                     gameManager.playerPassed();
@@ -55,7 +59,7 @@ public class Level {
     public void draw() {
         deepSpace.draw();
         player.draw();
-        for (int i = 0; i < Constants.totalObstacleNum; i++) {
+        for (int i = 0; i < totalObstacleNum; i++) {
             try {
                 obstacles[i].draw();
             } catch (NullPointerException e) {
@@ -84,20 +88,20 @@ public class Level {
     }
 
     private void createRow() {
-        if (currentObstacle == Constants.totalObstacleNum) {
+        if (currentObstacle == totalObstacleNum) {
             currentObstacle = 0;
         }
-        for (int i = currentObstacle; i < currentObstacle + Constants.obstaclePerRow; i++) {
+        for (int i = currentObstacle; i < currentObstacle + obstaclePerRow; i++) {
             if (obstacles[i] == null) {
                 obstacles[i] = nextObstacle();
             }
         }
-        currentObstacle += Constants.obstaclePerRow;
+        currentObstacle += obstaclePerRow;
     }
 
     private Obstacle nextObstacle() {
         int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.VIRTUAL_GRID_HEIGHT);
-        return new Obstacle(obstaclePosX(obstacleSize), obstaclePosY(), obstacleSize);
+        return new Obstacle(obstaclePosX(obstacleSize), obstaclePosY(), obstacleSize, obstacleSpeed);
     }
 
     private int obstaclePosX(int obstacleSize) {
