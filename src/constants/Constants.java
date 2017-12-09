@@ -10,6 +10,10 @@ public final class Constants{
     public static final int CANVAS_HEIGHT = 960;
     public static final int FRAME_RATE = 60;
 
+    public static final String IMAGE_PATH = "./data/assets/ship_bucc_low.png";
+    public static final int IMAGE_WIDTH = 120;
+    public static final int IMAGE_HEIGHT = 105;
+
     public static final int PLAYER_UP_INPUT = 1;
     public static final int PLAYER_LEFT_INPUT = 2;
     public static final int PLAYER_DOWN_INPUT = 3;

@@ -35,20 +35,20 @@ public class Level {
         player.update();
         for (int i = 0; i < Constants.totalObstacleNum; i++) {
             try {
-                if (player.hasCollidedWith(obstacles[i])) {
-                    gameManager.playerCollided();
-                    obstacles[i].recolor();
-                }
                 if (obstacles[i].hasLeftScreen()) {
                     gameManager.playerPassed();
                     int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.VIRTUAL_GRID_HEIGHT);
                     obstacles[i].setPos(obstaclePosX(obstacleSize), obstaclePosY());
+                    obstacles[i].setObstacleSize(obstacleSize);
                 }
                 obstacles[i].update();
+                if (obstacles[i].hasCollidedWith(player)) {
+                    obstacles[i].recolor();
+                    gameManager.playerCollided();
+                }
             } catch (NullPointerException e) {
-                return;
+                //return;
             }
-
         }
     }
 

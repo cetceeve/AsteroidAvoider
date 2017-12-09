@@ -11,7 +11,7 @@ public class Obstacle implements Collidable {
 
     public Obstacle(int posX, int posY, int size) {
         obstacle = new Ellipse(posX, posY, size, size, Color.GRAY);
-        obstacle.setBorder(Color.GRAY, 0.0);
+        obstacle.setBorder(Color.GRAY, 1.0);
         obstacleSize = size;
     }
 
@@ -31,9 +31,14 @@ public class Obstacle implements Collidable {
         obstacle.setPosition(posX, poxY);
     }
 
+    public void setObstacleSize(int obstacleSize) {
+        obstacle.setSize(obstacleSize, obstacleSize);
+        this.obstacleSize = obstacleSize;
+    }
+
     @Override
     public boolean hasCollidedWith(Collidable other) {
-        return false;
+        return hitTest(other.getHitBox());
     }
 
     @Override
@@ -43,16 +48,16 @@ public class Obstacle implements Collidable {
 
     @Override
     public boolean hitTest(Point[] hitBox) {
+        for (int i = 0; i < hitBox.length; i++) {
+            if (obstacle.hitTest(hitBox[i].getX(), hitBox[i].getY())) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public Point[] getHitBox() {
-        Point[] hitBox = new Point[4];
-        hitBox[0] = new Point(obstacle.getX() - obstacleSize/2, obstacle.getY());
-        hitBox[1] = new Point(obstacle.getX() + obstacleSize/2, obstacle.getY());
-        hitBox[2] = new Point(obstacle.getX(), obstacle.getY() - obstacleSize/2);
-        hitBox[3] = new Point(obstacle.getX(), obstacle.getY() + obstacleSize/2);
-        return hitBox;
+        return null;
     }
 }

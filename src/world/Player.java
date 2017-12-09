@@ -5,15 +5,14 @@ import de.ur.mi.geom.Point;
 import de.ur.mi.graphics.GraphicsObject;
 import de.ur.mi.graphics.Image;
 
-public class Player extends GraphicsObject implements Collidable{
+public class Player extends GraphicsObject implements Collidable {
     private Image representation;
     private double movementDirX = 0;
     private double movementDirY = 0;
 
     public Player(double x, double y) {
-        super (x, y);
-        representation = new Image(x, y, "./data/assets/ship_bucc.png");
-        representation.scale(0.25);
+        super(x, y);
+        representation = new Image(x, y, Constants.IMAGE_WIDTH, Constants.IMAGE_HEIGHT, Constants.IMAGE_PATH);
     }
 
     public void update() {
@@ -53,25 +52,23 @@ public class Player extends GraphicsObject implements Collidable{
 
     @Override
     public boolean hasCollidedWith(Collidable other) {
-        if (hitTest(other.getHitBox())) {
-            return true;
-        }
         return false;
     }
 
     @Override
     public boolean hitTest(Point[] hitBox) {
-        for (int i = 0; i < hitBox.length; i++) {
-            if (this.hitTest(hitBox[i].getX(), hitBox[i].getY())) {
-                return true;
-            }
-        }
         return false;
     }
 
     @Override
     public Point[] getHitBox() {
-        return null;
+        Point[] hitBox = new Point[5];
+        hitBox[0] = new Point(this.getX() + 59, this.getY() + 2);
+        hitBox[1] = new Point(this.getX() + 2, this.getY() + 68);
+        hitBox[2] = new Point(this.getX() + 115, this.getY() + 68);
+        hitBox[3] = new Point(this.getX() + 41, this.getY()+ 102);
+        hitBox[4] = new Point(this.getX() + 75, this.getY()+ 102);
+        return hitBox;
     }
 
     private void checkWallCollision() {
