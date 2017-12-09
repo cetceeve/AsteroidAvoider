@@ -6,13 +6,14 @@ import de.ur.mi.graphics.GraphicsObject;
 import de.ur.mi.graphics.Image;
 
 public class Player extends GraphicsObject implements Collidable {
-    public int playerMovementSpeed = 4;
+    public int playerMovementSpeed;
     private Image representation;
     private double movementDirX = 0;
     private double movementDirY = 0;
 
-    public Player(double x, double y) {
+    public Player(double x, double y, int playerMovementSpeed) {
         super(x, y);
+        this.playerMovementSpeed = playerMovementSpeed;
         representation = new Image(x, y, Constants.IMAGE_WIDTH, Constants.IMAGE_HEIGHT, Constants.IMAGE_PATH);
     }
 

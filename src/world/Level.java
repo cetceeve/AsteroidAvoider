@@ -20,16 +20,16 @@ public class Level {
     private int countDrawCalls = 0;
     private int countRowCreation = 0;
 
-    public Level(GameEventListener gameManager, int obstaclesPerRow, int obstacleSpeed) {
+    public Level(GameEventListener gameManager, int obstaclesPerRow, int obstacleSpeed, int playerMovementSpeed) {
         this.gameManager = gameManager;
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
         totalObstacleNum = obstaclesPerRow * Constants.VIRTUAL_GRID_ROW_NUM;
         randomGenerator = RandomGenerator.getInstance();
-        deepSpace = new DeepSpace();
+        deepSpace = new DeepSpace(obstacleSpeed);
         obstacles = new Obstacle[totalObstacleNum];
         createRow();
-        player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y);
+        player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y, playerMovementSpeed);
     }
 
     public void update() {
@@ -103,7 +103,7 @@ public class Level {
     }
 
     private Obstacle nextObstacle() {
-        int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.VIRTUAL_GRID_HEIGHT);
+        int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.OBSTACLE_MAX_SIZE);
         return new Obstacle(obstaclePosX(obstacleSize), obstaclePosY(), obstacleSize, obstacleSpeed);
     }
 
