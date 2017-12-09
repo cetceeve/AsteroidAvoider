@@ -1,8 +1,6 @@
 package world;
 
 import constants.Constants;
-import de.ur.mi.graphics.Color;
-import de.ur.mi.graphics.Rect;
 import de.ur.mi.util.RandomGenerator;
 
 public class Level {
@@ -18,20 +16,20 @@ public class Level {
     public Level() {
         randomGenerator = RandomGenerator.getInstance();
         deepSpace = new DeepSpace();
-        obstacles = new Obstacle[Constants.TOTAL_OBSTACLE_NUM];
+        obstacles = new Obstacle[Constants.totalObstacleNum];
         createRow();
         player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y);
     }
 
     public void update() {
-        if ((++countDrawCalls * Constants.OBSTACLE_SPEED) % (Constants.VIRTUAL_GRID_HEIGHT * 2) == 0 && countRowCreation < Constants.ROW_NUM) {
+        if ((++countDrawCalls * Constants.obstacleSpeed) % (Constants.VIRTUAL_GRID_HEIGHT * 2) == 0 && countRowCreation < Constants.VIRTUAL_GRID_ROW_NUM) {
             createRow();
             countRowCreation++;
             countDrawCalls = 0;
         }
         deepSpace.update();
         player.update();
-        for (int i = 0; i < Constants.TOTAL_OBSTACLE_NUM; i++) {
+        for (int i = 0; i < Constants.totalObstacleNum; i++) {
             try {
                 if (player.hasCollidedWith(obstacles[i])) {
                     obstacles[i].recolor();
@@ -51,7 +49,7 @@ public class Level {
     public void draw() {
         deepSpace.draw();
         player.draw();
-        for (int i = 0; i < Constants.TOTAL_OBSTACLE_NUM; i++) {
+        for (int i = 0; i < Constants.totalObstacleNum; i++) {
             try {
                 obstacles[i].draw();
             } catch (NullPointerException e) {
@@ -80,15 +78,15 @@ public class Level {
     }
 
     private void createRow() {
-        if (currentObstacle == Constants.TOTAL_OBSTACLE_NUM) {
+        if (currentObstacle == Constants.totalObstacleNum) {
             currentObstacle = 0;
         }
-        for (int i = currentObstacle; i < currentObstacle + Constants.OBSTACLE_PER_ROW; i++) {
+        for (int i = currentObstacle; i < currentObstacle + Constants.obstaclePerRow; i++) {
             if (obstacles[i] == null) {
                 obstacles[i] = nextObstacle();
             }
         }
-        currentObstacle += Constants.OBSTACLE_PER_ROW;
+        currentObstacle += Constants.obstaclePerRow;
     }
 
     private Obstacle nextObstacle() {

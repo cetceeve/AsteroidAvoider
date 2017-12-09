@@ -16,7 +16,7 @@ public class Obstacle implements Collidable {
     }
 
     public void update() {
-        obstacle.move(0, Constants.OBSTACLE_SPEED);
+        obstacle.move(0, Constants.obstacleSpeed);
     }
 
     public void draw() {

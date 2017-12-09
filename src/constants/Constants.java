@@ -1,7 +1,5 @@
 package constants;
 
-import game.GameEventListener;
-
 public final class Constants{
 
     private Constants() {
@@ -20,14 +18,27 @@ public final class Constants{
 
     public static final int PLAYER_START_X = CANVAS_WIDTH/2 - 50;
     public static final int PLAYER_START_Y = CANVAS_HEIGHT - 200;
-    public static final int PLAYER_MOVEMENT_SPEED = 4;
 
-    public static final int OBSTACLE_MIN_SIZE = 50;
-    public static final int OBSTACLE_PER_ROW = 4;
-    public static final int OBSTACLE_SPEED = 3;
-    public static final int ROW_NUM = 5;
-    public static final int TOTAL_OBSTACLE_NUM = OBSTACLE_PER_ROW * ROW_NUM;
+    public static final int OBSTACLE_MIN_SIZE = 20;
     public static final int VIRTUAL_GRID_HEIGHT = 120;
     public static final int VIRTUAL_GRID_WIDTH = 160;
     public static final int VIRTUAL_GRID_COLUMN_NUM = 8;
+    public static final int VIRTUAL_GRID_ROW_NUM = 5;
+
+    public static int playerMovementSpeed = 4;
+    public static int obstaclePerRow = 4;
+    public static int obstacleSpeed = 3;
+    public static int totalObstacleNum = obstaclePerRow * VIRTUAL_GRID_ROW_NUM;
+
+    public void setPlayerMovementSpeed(int plSpeed) {
+        playerMovementSpeed = plSpeed;
+    }
+
+    public void setObstaclePerRow(int amount) {
+        obstaclePerRow = amount;
+    }
+
+    public void setObstacleSpeed(int obSpeed) {
+        obstacleSpeed = obSpeed;
+    }
 }

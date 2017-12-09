@@ -17,7 +17,7 @@ public class Player extends GraphicsObject implements Collidable{
     }
 
     public void update() {
-        this.move(movementDirX * Constants.PLAYER_MOVEMENT_SPEED, movementDirY * Constants.PLAYER_MOVEMENT_SPEED);
+        this.move(movementDirX * Constants.playerMovementSpeed, movementDirY * Constants.playerMovementSpeed);
         checkWallCollision();
         representation.setPosition(this.getX(), this.getY());
     }
