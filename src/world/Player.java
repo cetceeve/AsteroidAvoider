@@ -73,6 +73,10 @@ public class Player extends GraphicsObject implements Collidable {
         return hitBox;
     }
 
+    public void setPlayerMovementSpeed(int playerMovementSpeed) {
+        this.playerMovementSpeed = playerMovementSpeed;
+    }
+
     private void checkWallCollision() {
         if (this.getX() <= 0 || this.getX() + representation.getWidth() >= Constants.CANVAS_WIDTH) {
             movementDirX = 0;

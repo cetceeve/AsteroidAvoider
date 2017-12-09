@@ -25,10 +25,6 @@ public class Obstacle implements Collidable {
         obstacle.draw();
     }
 
-    public void recolor() {
-        obstacle.setColor(Color.RED);
-    }
-
     public void setPos(int posX, int poxY) {
         obstacle.setPosition(posX, poxY);
     }

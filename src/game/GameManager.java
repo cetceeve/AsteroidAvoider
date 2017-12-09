@@ -1,5 +1,6 @@
 package game;
 
+import constants.Constants;
 import world.Level;
 
 public class GameManager implements GameEventListener{
@@ -9,7 +10,8 @@ public class GameManager implements GameEventListener{
     private UserInterface userInterface;
     private boolean levelFullStop = false;
     private Integer passedObstacles = 0;
-    private int levelNum = 0;
+    private int levelNum = 5;
+    private boolean clearAsteroids = false;
 
     public GameManager() {
         setupGameObjects();
@@ -23,7 +25,7 @@ public class GameManager implements GameEventListener{
 
     public void update() {
         if (!levelFullStop) {
-            level.update();
+            level.update(clearAsteroids);
         }
         userInterface.update();
     }
@@ -42,31 +44,22 @@ public class GameManager implements GameEventListener{
     @Override
     public void playerCollided() {
         levelFullStop = true;
-        // TODO: remove statement
-        if (levelNum >= 13) {
-            levelNum = 12;
-        }
-        if (levelNum < 13) {
-            newLevel(levelNum);
-        }
     }
 
     @Override
     public void playerPassed() {
         passedObstacles++;
         userInterface.setPassedObstacles(passedObstacles);
-        if (passedObstacles % 100 == 0) {
+        if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == 100) {
+            clearAsteroids = true;
+        }
+        if (passedObstacles == 100) {
+            clearAsteroids = false;
+            passedObstacles = 0;
             levelNum++;
             userInterface.setLevelNum(levelNum + 1);
-            if (levelNum < 13) {
-                newLevel(levelNum);
-            }
+            level.nextLevel(LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1], LEVEL_DATA[levelNum][2]);
         }
-    }
-
-    private void newLevel(int levelNum) {
-        level = new Level(this, LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1], LEVEL_DATA[levelNum][2]);
-        levelFullStop = false;
     }
 
     private void setLevelData() {

@@ -40,6 +40,10 @@ public class DeepSpace {
         }
     }
 
+    public void setObstacleSpeed(int obstacleSpeed) {
+        this.obstacleSpeed = obstacleSpeed;
+    }
+
     private void initParticles() {
         for (int i = 0; i < PARTICLE_NUMBER; i++) {
             int[] rPV = randomParticleValues();

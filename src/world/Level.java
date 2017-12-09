@@ -24,15 +24,19 @@ public class Level {
         this.gameManager = gameManager;
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
-        totalObstacleNum = obstaclesPerRow * Constants.VIRTUAL_GRID_ROW_NUM;
         randomGenerator = RandomGenerator.getInstance();
         deepSpace = new DeepSpace(obstacleSpeed);
-        obstacles = new Obstacle[totalObstacleNum];
+        initObstacleArray();
         createRow();
         player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y, playerMovementSpeed);
     }
 
-    public void update() {
+    private void initObstacleArray() {
+        totalObstacleNum = obstaclesPerRow * Constants.VIRTUAL_GRID_ROW_NUM;
+        obstacles = new Obstacle[totalObstacleNum];
+    }
+
+    public void update(boolean clearAstroids) {
         if ((++countDrawCalls * obstacleSpeed) % (Constants.VIRTUAL_GRID_HEIGHT * 2) == 0 && countRowCreation < Constants.VIRTUAL_GRID_ROW_NUM) {
             createRow();
             countRowCreation++;
@@ -42,19 +46,21 @@ public class Level {
         player.update();
         for (int i = 0; i < totalObstacleNum; i++) {
             try {
-                if (obstacles[i].hasLeftScreen()) {
-                    gameManager.playerPassed();
+                obstacles[i].update();
+                if (obstacles[i].hasCollidedWith(player)) {
+                    gameManager.playerCollided();
+                }
+                if (obstacles[i].hasLeftScreen() && !clearAstroids) {
                     int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.VIRTUAL_GRID_HEIGHT);
                     obstacles[i].setPos(obstaclePosX(obstacleSize), obstaclePosY());
                     obstacles[i].setObstacleSize(obstacleSize);
+                    gameManager.playerPassed();
                 }
-                obstacles[i].update();
-                if (obstacles[i].hasCollidedWith(player)) {
-                    obstacles[i].recolor();
-                    gameManager.playerCollided();
+                if (obstacles[i].hasLeftScreen() && clearAstroids) {
+                    obstacles[i] = null;
+                    gameManager.playerPassed();
                 }
             } catch (NullPointerException e) {
-                //return;
             }
         }
     }
@@ -66,7 +72,6 @@ public class Level {
             try {
                 obstacles[i].draw();
             } catch (NullPointerException e) {
-                return;
             }
         }
     }
@@ -88,6 +93,17 @@ public class Level {
             default:
                 break;
         }
+    }
+
+    public void nextLevel(int obstaclesPerRow, int obstacleSpeed, int playerMovementSpeed) {
+        this.obstaclesPerRow = obstaclesPerRow;
+        this.obstacleSpeed = obstacleSpeed;
+        player.setPlayerMovementSpeed(playerMovementSpeed);
+        deepSpace.setObstacleSpeed(obstacleSpeed);
+        initObstacleArray();
+        currentObstacle = 0;
+        countDrawCalls = 0;
+        countRowCreation = 0;
     }
 
     private void createRow() {
