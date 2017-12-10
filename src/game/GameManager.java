@@ -12,7 +12,7 @@ public class GameManager implements GameEventListener {
     private Player player;
 
     private Integer passedObstacles = 0;
-    private int levelNum = 0;
+    private int levelNum = 10;
 
     private boolean playerHasControl = true;
 
@@ -47,6 +47,8 @@ public class GameManager implements GameEventListener {
     @Override
     public void playerCollided() {
         playerHasControl = false;
+        userInterface.hidePassCount(true);
+        passedObstacles = 0;
         collisionAnimation();
     }
 
@@ -78,6 +80,14 @@ public class GameManager implements GameEventListener {
         player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][1]);
         player.setMovementDirection(0, 1);
         player.setCheckForWallCollision(false);
+    }
+
+    private void resetLevel() {
+        passedObstacles = 0;
+        userInterface.setPassedObstacles(passedObstacles);
+        userInterface.hidePassCount(false);
+        resetPlayer();
+        startNextLevel();
     }
 
     private void resetPlayer() {
@@ -126,10 +136,13 @@ public class GameManager implements GameEventListener {
                 }
                 break;
             case (Constants.PLAYER_RESET_INPUT):
-                passedObstacles = 0;
-                userInterface.setPassedObstacles(passedObstacles);
-                resetPlayer();
-                startNextLevel();
+                resetLevel();
+                break;
+            case (Constants.PLAYER_REPLAY_INPUT):
+                levelNum = 0;
+                userInterface.setLevelNum(levelNum);
+                resetLevel();
+                break;
             default:
                 break;
         }

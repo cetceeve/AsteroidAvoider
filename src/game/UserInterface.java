@@ -9,6 +9,7 @@ public class UserInterface {
     private Label labelLevel;
     private Integer passedObstacles = 0;
     private Integer levelNum = 1;
+    private boolean hidePassCount = false;
 
     public UserInterface() {
         labelPassCount = new Label(10, 50, "0", Color.WHITE, 50);
@@ -21,8 +22,14 @@ public class UserInterface {
     }
 
     public void draw() {
-        labelPassCount.draw();
+        if (!hidePassCount) {
+            labelPassCount.draw();
+        }
         labelLevel.draw();
+    }
+
+    public void hidePassCount(boolean hidePassCount) {
+        this.hidePassCount = hidePassCount;
     }
 
     public void setPassedObstacles(int passedObstacles) {

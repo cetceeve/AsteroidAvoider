@@ -19,6 +19,7 @@ public final class Constants{
     public static final int PLAYER_DOWN_INPUT = 3;
     public static final int PLAYER_RIGHT_INPUT = 4;
     public static final int PLAYER_RESET_INPUT = 5;
+    public static final int PLAYER_REPLAY_INPUT = 6;
 
     public static final int PLAYER_START_X = CANVAS_WIDTH/2 - 50;
     public static final int PLAYER_START_Y = CANVAS_HEIGHT - 200;
