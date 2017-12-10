@@ -10,6 +10,7 @@ public class Player extends GraphicsObject implements Collidable {
     private Image representation;
     private double movementDirX = 0;
     private double movementDirY = 0;
+    private boolean checkForWallCollision = true;
 
     public Player(double x, double y, int playerMovementSpeed) {
         super(x, y);
@@ -19,7 +20,9 @@ public class Player extends GraphicsObject implements Collidable {
 
     public void update() {
         this.move(movementDirX * playerMovementSpeed, movementDirY * playerMovementSpeed);
-        checkWallCollision();
+        if (checkForWallCollision) {
+            checkWallCollision();
+        }
         representation.setPosition(this.getX(), this.getY());
     }
 
@@ -49,7 +52,7 @@ public class Player extends GraphicsObject implements Collidable {
 
     @Override
     public boolean hasLeftScreen() {
-        return false;
+        return this.getY() >= Constants.CANVAS_HEIGHT + Constants.VIRTUAL_GRID_HEIGHT;
     }
 
     @Override
@@ -75,6 +78,15 @@ public class Player extends GraphicsObject implements Collidable {
 
     public void setPlayerMovementSpeed(int playerMovementSpeed) {
         this.playerMovementSpeed = playerMovementSpeed;
+    }
+
+    public void setMovementDirection(int x, int y) {
+        this.movementDirX = x;
+        this.movementDirY = y;
+    }
+
+    public void setCheckForWallCollision(boolean checkForWallCollision) {
+        this.checkForWallCollision = checkForWallCollision;
     }
 
     private void checkWallCollision() {
