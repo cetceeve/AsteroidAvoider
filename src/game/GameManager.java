@@ -12,7 +12,7 @@ public class GameManager implements GameEventListener{
     private Player player;
     private boolean levelFullStop = false;
     private Integer passedObstacles = 0;
-    private int levelNum = 12;
+    private int levelNum = 0;
     private boolean clearObstacles = false;
 
     public GameManager() {

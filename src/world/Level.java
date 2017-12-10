@@ -29,7 +29,6 @@ public class Level {
         initObstacleArray();
         createRow();
         this.player = player;
-        //player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y, playerMovementSpeed);
     }
 
     private void initObstacleArray() {
@@ -44,7 +43,6 @@ public class Level {
             countDrawCalls = 0;
         }
         deepSpace.update();
-        //player.update();
         for (int i = 0; i < totalObstacleNum; i++) {
             try {
                 obstacles[i].update();
@@ -68,7 +66,6 @@ public class Level {
 
     public void draw() {
         deepSpace.draw();
-        //player.draw();
         for (int i = 0; i < totalObstacleNum; i++) {
             try {
                 obstacles[i].draw();
@@ -76,27 +73,6 @@ public class Level {
             }
         }
     }
-
-    /*
-    public void handleEvent(int inputEvent) {
-        switch (inputEvent) {
-            case (Constants.PLAYER_UP_INPUT):
-                player.moveUp();
-                break;
-            case (Constants.PLAYER_LEFT_INPUT):
-                player.moveLeft();
-                break;
-            case (Constants.PLAYER_DOWN_INPUT):
-                player.moveDown();
-                break;
-            case (Constants.PLAYER_RIGHT_INPUT):
-                player.moveRight();
-                break;
-            default:
-                break;
-        }
-    }
-    */
 
     public void nextLevel(int obstaclesPerRow, int obstacleSpeed) {
         this.obstaclesPerRow = obstaclesPerRow;
