@@ -7,13 +7,11 @@ import de.ur.mi.graphics.Ellipse;
 
 public class Obstacle implements Collidable {
     private Ellipse obstacle;
-    private int obstacleSize;
     private int obstacleSpeed;
 
     public Obstacle(int posX, int posY, int obstacleSize, int obstacleSpeed) {
         obstacle = new Ellipse(posX, posY, obstacleSize, obstacleSize, Color.GRAY);
         obstacle.setBorder(Color.GRAY, 1.0);
-        this.obstacleSize = obstacleSize;
         this.obstacleSpeed = obstacleSpeed;
     }
 
@@ -29,9 +27,8 @@ public class Obstacle implements Collidable {
         obstacle.setPosition(posX, poxY);
     }
 
-    public void setObstacleSize(int obstacleSize) {
+    public void setSize(int obstacleSize) {
         obstacle.setSize(obstacleSize, obstacleSize);
-        this.obstacleSize = obstacleSize;
     }
 
     @Override
@@ -41,7 +38,7 @@ public class Obstacle implements Collidable {
 
     @Override
     public boolean hasLeftScreen() {
-        return obstacle.getY() >= Constants.CANVAS_HEIGHT + obstacleSize / 2;
+        return obstacle.getY() >= Constants.CANVAS_HEIGHT + obstacle.getHeight() / 2;
     }
 
     @Override

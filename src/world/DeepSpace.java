@@ -27,6 +27,9 @@ public class DeepSpace {
     public void update() {
         for (int i = 0; i < PARTICLE_NUMBER; i++) {
             particles[i].update();
+            if (particles[i].hasLeftScreen()) {
+                redrawParticle(particles[i]);
+            }
         }
     }
 
@@ -34,9 +37,6 @@ public class DeepSpace {
         deepSpace.draw();
         for (int i = 0; i < PARTICLE_NUMBER; i++) {
             particles[i].draw();
-            if (particles[i].hasLeftScreen()) {
-                redrawParticles(particles[i]);
-            }
         }
     }
 
@@ -51,7 +51,7 @@ public class DeepSpace {
         }
     }
 
-    private void redrawParticles(Particle particle) {
+    private void redrawParticle(Particle particle) {
         int[] rPV = randomParticleValues();
         particle.setNewValues(rPV[0], 0 - rPV[1],0 - rPV[2], rPV[3]);
     }

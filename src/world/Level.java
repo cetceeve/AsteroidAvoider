@@ -9,7 +9,7 @@ public class Level {
     private RandomGenerator randomGenerator;
     private DeepSpace deepSpace;
     private Obstacle obstacles[];
-    private Player player;
+    private Collidable player;
     private GameEventListener gameManager;
 
     private int obstaclesPerRow;
@@ -20,7 +20,7 @@ public class Level {
     private int countDrawCalls = 0;
     private int countRowCreation = 0;
 
-    public Level(GameEventListener gameManager, Player player, int obstaclesPerRow, int obstacleSpeed) {
+    public Level(GameEventListener gameManager, Collidable player, int obstaclesPerRow, int obstacleSpeed) {
         this.gameManager = gameManager;
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
@@ -52,7 +52,7 @@ public class Level {
                 if (obstacles[i].hasLeftScreen() && !clearObstacles) {
                     int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.VIRTUAL_GRID_HEIGHT);
                     obstacles[i].setPos(obstaclePosX(obstacleSize), obstaclePosY());
-                    obstacles[i].setObstacleSize(obstacleSize);
+                    obstacles[i].setSize(obstacleSize);
                     gameManager.playerPassed();
                 }
                 if (obstacles[i].hasLeftScreen() && clearObstacles) {
@@ -89,6 +89,7 @@ public class Level {
             currentObstacle = 0;
         }
         for (int i = currentObstacle; i < currentObstacle + obstaclesPerRow; i++) {
+            // security
             if (obstacles[i] == null) {
                 obstacles[i] = nextObstacle();
             }

@@ -12,7 +12,7 @@ public class GameManager implements GameEventListener{
     private Player player;
     private boolean levelFullStop = false;
     private Integer passedObstacles = 0;
-    private int levelNum = 0;
+    private int levelNum = 5;
     private boolean clearObstacles = false;
 
     public GameManager() {
@@ -29,9 +29,9 @@ public class GameManager implements GameEventListener{
     public void update() {
         if (!levelFullStop) {
             level.update(clearObstacles);
+            player.update();
         }
         userInterface.update();
-        player.update();
     }
 
     public void draw() {
