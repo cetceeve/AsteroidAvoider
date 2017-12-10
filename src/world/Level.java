@@ -20,7 +20,7 @@ public class Level {
     private int countDrawCalls = 0;
     private int countRowCreation = 0;
 
-    public Level(GameEventListener gameManager, int obstaclesPerRow, int obstacleSpeed, int playerMovementSpeed) {
+    public Level(GameEventListener gameManager, Player player, int obstaclesPerRow, int obstacleSpeed) {
         this.gameManager = gameManager;
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
@@ -28,7 +28,8 @@ public class Level {
         deepSpace = new DeepSpace(obstacleSpeed);
         initObstacleArray();
         createRow();
-        player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y, playerMovementSpeed);
+        this.player = player;
+        //player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y, playerMovementSpeed);
     }
 
     private void initObstacleArray() {
@@ -43,7 +44,7 @@ public class Level {
             countDrawCalls = 0;
         }
         deepSpace.update();
-        player.update();
+        //player.update();
         for (int i = 0; i < totalObstacleNum; i++) {
             try {
                 obstacles[i].update();
@@ -67,7 +68,7 @@ public class Level {
 
     public void draw() {
         deepSpace.draw();
-        player.draw();
+        //player.draw();
         for (int i = 0; i < totalObstacleNum; i++) {
             try {
                 obstacles[i].draw();
@@ -76,6 +77,7 @@ public class Level {
         }
     }
 
+    /*
     public void handleEvent(int inputEvent) {
         switch (inputEvent) {
             case (Constants.PLAYER_UP_INPUT):
@@ -94,11 +96,11 @@ public class Level {
                 break;
         }
     }
+    */
 
-    public void nextLevel(int obstaclesPerRow, int obstacleSpeed, int playerMovementSpeed) {
+    public void nextLevel(int obstaclesPerRow, int obstacleSpeed) {
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
-        player.setPlayerMovementSpeed(playerMovementSpeed);
         deepSpace.setObstacleSpeed(obstacleSpeed);
         initObstacleArray();
         currentObstacle = 0;

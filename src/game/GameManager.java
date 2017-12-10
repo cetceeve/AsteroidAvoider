@@ -2,15 +2,17 @@ package game;
 
 import constants.Constants;
 import world.Level;
+import world.Player;
 
 public class GameManager implements GameEventListener{
     private static final int LEVEL_DATA[][] = new int[13][3];
 
     private Level level;
     private UserInterface userInterface;
+    private Player player;
     private boolean levelFullStop = false;
     private Integer passedObstacles = 0;
-    private int levelNum = 11;
+    private int levelNum = 12;
     private boolean clearObstacles = false;
 
     public GameManager() {
@@ -19,7 +21,8 @@ public class GameManager implements GameEventListener{
 
     private void setupGameObjects() {
         setLevelData();
-        level = new Level(this, LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1], LEVEL_DATA[levelNum][2]);
+        player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y, LEVEL_DATA[levelNum][2]);
+        level = new Level(this, player, LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
         userInterface = new UserInterface();
     }
 
@@ -28,16 +31,31 @@ public class GameManager implements GameEventListener{
             level.update(clearObstacles);
         }
         userInterface.update();
+        player.update();
     }
 
     public void draw() {
         level.draw();
         userInterface.draw();
+        player.draw();
     }
 
     public void handleEvent(int inputEvent) {
-        if (inputEvent < 6) {
-            level.handleEvent(inputEvent);
+        switch (inputEvent) {
+            case (Constants.PLAYER_UP_INPUT):
+                player.moveUp();
+                break;
+            case (Constants.PLAYER_LEFT_INPUT):
+                player.moveLeft();
+                break;
+            case (Constants.PLAYER_DOWN_INPUT):
+                player.moveDown();
+                break;
+            case (Constants.PLAYER_RIGHT_INPUT):
+                player.moveRight();
+                break;
+            default:
+                break;
         }
     }
 
@@ -59,7 +77,8 @@ public class GameManager implements GameEventListener{
             levelNum++;
             userInterface.setLevelNum(levelNum + 1);
             if (levelNum < 13) {
-                level.nextLevel(LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1], LEVEL_DATA[levelNum][2]);
+                player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][2]);
+                level.nextLevel(LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
             }
         }
     }
@@ -69,8 +88,8 @@ public class GameManager implements GameEventListener{
         LEVEL_DATA[1] = new int[]{3, 3, 4};
         LEVEL_DATA[2] = new int[]{4, 3, 4};
         LEVEL_DATA[3] = new int[]{5, 3, 4};
-        LEVEL_DATA[4] = new int[]{4, 4, 5};
-        LEVEL_DATA[5] = new int[]{5, 4, 5};
+        LEVEL_DATA[4] = new int[]{3, 4, 5};
+        LEVEL_DATA[5] = new int[]{4, 4, 5};
         LEVEL_DATA[6] = new int[]{3, 5, 6};
         LEVEL_DATA[7] = new int[]{4, 5, 6};
         LEVEL_DATA[8] = new int[]{5, 5, 6};
