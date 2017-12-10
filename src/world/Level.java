@@ -6,57 +6,53 @@ import game.GameEventListener;
 
 public class Level {
 
-    private RandomGenerator randomGenerator;
-    private DeepSpace deepSpace;
-    private Obstacle obstacles[];
-    private Collidable player;
     private GameEventListener gameManager;
+    private Collidable player;
+    private DeepSpace deepSpace;
+    private RandomGenerator randomGenerator;
+    private Obstacle obstacles[];
 
     private int obstaclesPerRow;
-    private int totalObstacleNum;
     private int obstacleSpeed;
 
+    private int updateCallCounter = 0;
     private int currentObstacle = 0;
-    private int countDrawCalls = 0;
-    private int countRowCreation = 0;
+    private int currentRow = 0;
+    private boolean clearObstacles = false;
 
     public Level(GameEventListener gameManager, Collidable player, int obstaclesPerRow, int obstacleSpeed) {
         this.gameManager = gameManager;
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
-        randomGenerator = RandomGenerator.getInstance();
-        deepSpace = new DeepSpace(obstacleSpeed);
-        initObstacleArray();
-        createRow();
         this.player = player;
+        deepSpace = new DeepSpace(obstacleSpeed);
+        randomGenerator = RandomGenerator.getInstance();
+        // start level
+        initNextObstacleArray();
+        nextRow();
     }
 
-    private void initObstacleArray() {
-        totalObstacleNum = obstaclesPerRow * Constants.VIRTUAL_GRID_ROW_NUM;
-        obstacles = new Obstacle[totalObstacleNum];
-    }
-
-    public void update(boolean clearObstacles) {
-        if ((++countDrawCalls * obstacleSpeed) % (Constants.VIRTUAL_GRID_HEIGHT * 2) == 0 && countRowCreation < Constants.VIRTUAL_GRID_ROW_NUM) {
-            createRow();
-            countRowCreation++;
-            countDrawCalls = 0;
-        }
+    public void update() {
+        updateCallCounter++;
         deepSpace.update();
-        for (int i = 0; i < totalObstacleNum; i++) {
+        if (rowCreationController()) {
+            nextRow();
+            // counter can be reset
+            updateCallCounter = 0;
+        }
+        for (int i = 0; i < obstacles.length; i++) {
             try {
                 obstacles[i].update();
                 if (obstacles[i].hasCollidedWith(player)) {
                     gameManager.playerCollided();
                 }
-                if (obstacles[i].hasLeftScreen() && !clearObstacles) {
-                    int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.VIRTUAL_GRID_HEIGHT);
-                    obstacles[i].setPos(obstaclePosX(obstacleSize), obstaclePosY());
-                    obstacles[i].setSize(obstacleSize);
-                    gameManager.playerPassed();
-                }
-                if (obstacles[i].hasLeftScreen() && clearObstacles) {
-                    obstacles[i] = null;
+                if (obstacles[i].hasLeftScreen()) {
+                    if (clearObstacles) {
+                        obstacles[i] = null;
+                    } else {
+                        resetObstacle(obstacles[i]);
+                    }
+                    // must be last statement!
                     gameManager.playerPassed();
                 }
             } catch (NullPointerException e) {
@@ -66,7 +62,7 @@ public class Level {
 
     public void draw() {
         deepSpace.draw();
-        for (int i = 0; i < totalObstacleNum; i++) {
+        for (int i = 0; i < obstacles.length; i++) {
             try {
                 obstacles[i].draw();
             } catch (NullPointerException e) {
@@ -75,19 +71,18 @@ public class Level {
     }
 
     public void nextLevel(int obstaclesPerRow, int obstacleSpeed) {
+        resetRowCreationController();
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
         deepSpace.setObstacleSpeed(obstacleSpeed);
-        initObstacleArray();
-        currentObstacle = 0;
-        countDrawCalls = 0;
-        countRowCreation = 0;
+        initNextObstacleArray();
     }
 
-    private void createRow() {
-        if (currentObstacle == totalObstacleNum) {
-            currentObstacle = 0;
-        }
+    private void initNextObstacleArray() {
+        obstacles = new Obstacle[obstaclesPerRow * Constants.VIRTUAL_GRID_ROW_NUM];
+    }
+
+    private void nextRow() {
         for (int i = currentObstacle; i < currentObstacle + obstaclesPerRow; i++) {
             // security
             if (obstacles[i] == null) {
@@ -95,22 +90,49 @@ public class Level {
             }
         }
         currentObstacle += obstaclesPerRow;
+        currentRow++;
     }
 
     private Obstacle nextObstacle() {
-        int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.OBSTACLE_MAX_SIZE);
-        return new Obstacle(obstaclePosX(obstacleSize), obstaclePosY(), obstacleSize, obstacleSpeed);
+        int obstacleSize = nextObstacleSize();
+        return new Obstacle(nextObstaclePosX(obstacleSize), nextObstaclePosY(), obstacleSize, obstacleSpeed);
     }
 
-    private int obstaclePosX(int obstacleSize) {
+    private void resetObstacle(Obstacle obstacle) {
+        int obstacleSize = nextObstacleSize();
+        obstacle.setPos(nextObstaclePosX(obstacleSize), nextObstaclePosY());
+        obstacle.setSize(obstacleSize);
+    }
+
+    private int nextObstacleSize() {
+        return randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.OBSTACLE_MAX_SIZE);
+    }
+
+    private int nextObstaclePosX(int obstacleSize) {
         int randomDeviationX = randomGenerator.nextInt(obstacleSize/2, Constants.VIRTUAL_GRID_WIDTH - obstacleSize/2);
         int virtualGridRow = randomGenerator.nextInt(0, Constants.VIRTUAL_GRID_COLUMN_NUM);
         return virtualGridRow * Constants.VIRTUAL_GRID_WIDTH + randomDeviationX;
     }
 
-    private int obstaclePosY() {
+    private int nextObstaclePosY() {
         int randomDeviationY = randomGenerator.nextInt(0, Constants.VIRTUAL_GRID_HEIGHT);
         int virtalGridSpawnRow = -1 * Constants.VIRTUAL_GRID_HEIGHT * 2;
         return virtalGridSpawnRow + randomDeviationY;
+    }
+
+    private boolean rowCreationController() {
+        boolean rowNecessary = currentRow < Constants.VIRTUAL_GRID_ROW_NUM;
+        boolean correctDistanceFromLastRow = (updateCallCounter * obstacleSpeed) % (Constants.VIRTUAL_GRID_ROW_SPACING) == 0;
+        return rowNecessary && correctDistanceFromLastRow;
+    }
+
+    private void resetRowCreationController() {
+        updateCallCounter = 0;
+        currentObstacle = 0;
+        currentRow = 0;
+    }
+
+    public void setClearObstacles(boolean clearObstacles) {
+        this.clearObstacles = clearObstacles;
     }
 }

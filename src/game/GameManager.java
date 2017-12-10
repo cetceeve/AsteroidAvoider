@@ -12,8 +12,7 @@ public class GameManager implements GameEventListener{
     private Player player;
     private boolean levelFullStop = false;
     private Integer passedObstacles = 0;
-    private int levelNum = 5;
-    private boolean clearObstacles = false;
+    private int levelNum = 3;
 
     public GameManager() {
         setupGameObjects();
@@ -28,7 +27,7 @@ public class GameManager implements GameEventListener{
 
     public void update() {
         if (!levelFullStop) {
-            level.update(clearObstacles);
+            level.update();
             player.update();
         }
         userInterface.update();
@@ -69,10 +68,10 @@ public class GameManager implements GameEventListener{
         passedObstacles++;
         userInterface.setPassedObstacles(passedObstacles);
         if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == 100) {
-            clearObstacles = true;
+            level.setClearObstacles(true);
         }
         if (passedObstacles == 100) {
-            clearObstacles = false;
+            level.setClearObstacles(false);
             passedObstacles = 0;
             levelNum++;
             userInterface.setLevelNum(levelNum + 1);
