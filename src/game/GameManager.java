@@ -10,8 +10,8 @@ public class GameManager implements GameEventListener{
     private UserInterface userInterface;
     private boolean levelFullStop = false;
     private Integer passedObstacles = 0;
-    private int levelNum = 5;
-    private boolean clearAsteroids = false;
+    private int levelNum = 11;
+    private boolean clearObstacles = false;
 
     public GameManager() {
         setupGameObjects();
@@ -25,7 +25,7 @@ public class GameManager implements GameEventListener{
 
     public void update() {
         if (!levelFullStop) {
-            level.update(clearAsteroids);
+            level.update(clearObstacles);
         }
         userInterface.update();
     }
@@ -51,14 +51,16 @@ public class GameManager implements GameEventListener{
         passedObstacles++;
         userInterface.setPassedObstacles(passedObstacles);
         if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == 100) {
-            clearAsteroids = true;
+            clearObstacles = true;
         }
         if (passedObstacles == 100) {
-            clearAsteroids = false;
+            clearObstacles = false;
             passedObstacles = 0;
             levelNum++;
             userInterface.setLevelNum(levelNum + 1);
-            level.nextLevel(LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1], LEVEL_DATA[levelNum][2]);
+            if (levelNum < 13) {
+                level.nextLevel(LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1], LEVEL_DATA[levelNum][2]);
+            }
         }
     }
 
@@ -69,7 +71,7 @@ public class GameManager implements GameEventListener{
         LEVEL_DATA[3] = new int[]{5, 3, 4};
         LEVEL_DATA[4] = new int[]{4, 4, 5};
         LEVEL_DATA[5] = new int[]{5, 4, 5};
-        LEVEL_DATA[6] = new int[]{3, 5, 5};
+        LEVEL_DATA[6] = new int[]{3, 5, 6};
         LEVEL_DATA[7] = new int[]{4, 5, 6};
         LEVEL_DATA[8] = new int[]{5, 5, 6};
         LEVEL_DATA[9] = new int[]{6, 5, 6};

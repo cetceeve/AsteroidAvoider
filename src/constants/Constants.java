@@ -27,6 +27,6 @@ public final class Constants{
     public static final int OBSTACLE_MAX_SIZE = 90;
     public static final int VIRTUAL_GRID_HEIGHT = 120;
     public static final int VIRTUAL_GRID_WIDTH = 160;
-    public static final int VIRTUAL_GRID_COLUMN_NUM = 8;
+    public static final int VIRTUAL_GRID_COLUMN_NUM = 7;
     public static final int VIRTUAL_GRID_ROW_NUM = 5;
 }

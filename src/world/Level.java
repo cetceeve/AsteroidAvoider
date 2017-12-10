@@ -36,7 +36,7 @@ public class Level {
         obstacles = new Obstacle[totalObstacleNum];
     }
 
-    public void update(boolean clearAstroids) {
+    public void update(boolean clearObstacles) {
         if ((++countDrawCalls * obstacleSpeed) % (Constants.VIRTUAL_GRID_HEIGHT * 2) == 0 && countRowCreation < Constants.VIRTUAL_GRID_ROW_NUM) {
             createRow();
             countRowCreation++;
@@ -50,13 +50,13 @@ public class Level {
                 if (obstacles[i].hasCollidedWith(player)) {
                     gameManager.playerCollided();
                 }
-                if (obstacles[i].hasLeftScreen() && !clearAstroids) {
+                if (obstacles[i].hasLeftScreen() && !clearObstacles) {
                     int obstacleSize = randomGenerator.nextInt(Constants.OBSTACLE_MIN_SIZE, Constants.VIRTUAL_GRID_HEIGHT);
                     obstacles[i].setPos(obstaclePosX(obstacleSize), obstaclePosY());
                     obstacles[i].setObstacleSize(obstacleSize);
                     gameManager.playerPassed();
                 }
-                if (obstacles[i].hasLeftScreen() && clearAstroids) {
+                if (obstacles[i].hasLeftScreen() && clearObstacles) {
                     obstacles[i] = null;
                     gameManager.playerPassed();
                 }

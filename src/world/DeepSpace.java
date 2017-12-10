@@ -7,8 +7,8 @@ import de.ur.mi.util.RandomGenerator;
 public class DeepSpace {
     //constants
     private static final String DEEP_SPACE_IMAGE = "data/assets/deepspace_blue.jpg";
-    private static final float IMAGE_START_X = -800f;
-    private static final float IMAGE_START_Y = -420f;
+    private static final float IMAGE_START_X = -650;
+    private static final float IMAGE_START_Y = -300;
     private static final int PARTICLE_NUMBER = 15;
     // Instance variables
     private RandomGenerator randomGenerator;
