@@ -21,8 +21,11 @@ public final class Constants{
     public static final int PLAYER_RESET_INPUT = 5;
     public static final int PLAYER_REPLAY_INPUT = 6;
 
-    public static final int PLAYER_START_X = CANVAS_WIDTH/2 - 50;
+    public static final int PLAYER_START_X = CANVAS_WIDTH/2 - IMAGE_WIDTH/2;
     public static final int PLAYER_START_Y = CANVAS_HEIGHT - 200;
+
+    public static final int LEVEL_LENGTH = 100;
+    public static final int LEVEL_NUM = 13;
 
     public static final int OBSTACLE_MIN_SIZE = 20;
     public static final int OBSTACLE_MAX_SIZE = 90;

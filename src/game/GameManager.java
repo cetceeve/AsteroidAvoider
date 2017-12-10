@@ -5,7 +5,7 @@ import world.Level;
 import world.Player;
 
 public class GameManager implements GameEventListener {
-    private static final int LEVEL_DATA[][] = new int[13][3];
+    private static final int LEVEL_DATA[][] = new int[Constants.LEVEL_NUM][3];
 
     private Level level;
     private UserInterface userInterface;
@@ -55,10 +55,10 @@ public class GameManager implements GameEventListener {
     @Override
     public void playerPassed() {
         passedObstacles++;
-        if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == 100) {
+        if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == Constants.LEVEL_LENGTH) {
             level.setClearObstacles(true);
         }
-        if (passedObstacles == 100) {
+        if (passedObstacles == Constants.LEVEL_LENGTH) {
             passedObstacles = 0;
             levelNum++;
             startNextLevel();
@@ -69,7 +69,7 @@ public class GameManager implements GameEventListener {
 
     private void startNextLevel() {
         level.setClearObstacles(false);
-        if (levelNum < 13) {
+        if (levelNum < Constants.LEVEL_NUM) {
             player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][2]);
             level.nextLevel(LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
         }
