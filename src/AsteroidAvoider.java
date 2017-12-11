@@ -51,6 +51,12 @@ public class AsteroidAvoider extends GraphicsApp {
             case (KeyEvent.VK_BACK_SPACE):
                 gameManager.handleEvent(PLAYER_REPLAY_INPUT);
                 break;
+            case (KeyEvent.VK_ENTER):
+                gameManager.handleEvent(PLAYER_CONTINUE_INPUT);
+                break;
+            case (KeyEvent.VK_ESCAPE):
+                gameManager.handleEvent(PLAYER_PAUSE_INPUT);
+                break;
             default:
                 break;
         }
