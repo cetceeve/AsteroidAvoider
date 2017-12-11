@@ -1,4 +1,4 @@
-package game;
+package ui;
 
 import de.ur.mi.graphics.Color;
 import de.ur.mi.graphics.Label;

@@ -15,7 +15,7 @@ public class Player extends GraphicsObject implements Collidable {
     public Player(double x, double y, int playerMovementSpeed) {
         super(x, y);
         this.playerMovementSpeed = playerMovementSpeed;
-        representation = new Image(x, y, Constants.IMAGE_WIDTH, Constants.IMAGE_HEIGHT, Constants.IMAGE_PATH);
+        representation = new Image(x, y, Constants.PLAYER_IMAGE_WIDTH, Constants.PLAYER_IMAGE_HEIGHT, Constants.PLAYER_IMAGE_PATH);
     }
 
     public void update() {

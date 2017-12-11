@@ -1,6 +1,8 @@
 package game;
 
 import constants.Constants;
+import ui.AnimatedGraphics;
+import ui.UserInterface;
 import world.Level;
 import world.Player;
 
@@ -10,9 +12,10 @@ public class GameManager implements GameEventListener {
     private Level level;
     private UserInterface userInterface;
     private Player player;
+    private AnimatedGraphics animatedGraphics = null;
 
     private Integer passedObstacles = 0;
-    private int levelNum = 10;
+    private int levelNum = 4;
 
     private boolean playerHasControl = true;
 
@@ -36,17 +39,24 @@ public class GameManager implements GameEventListener {
             player.setPlayerMovementSpeed(0);
         }
         userInterface.update();
+        if (animatedGraphics != null) {
+            animatedGraphics.update();
+        }
     }
 
     public void draw() {
         level.draw();
         userInterface.draw();
         player.draw();
+        if (animatedGraphics != null) {
+            animatedGraphics.draw();
+        }
     }
 
     @Override
     public void playerCollided() {
         playerHasControl = false;
+        level.allowHitDetection(false);
         userInterface.hidePassCount(true);
         passedObstacles = 0;
         collisionAnimation();
@@ -80,12 +90,16 @@ public class GameManager implements GameEventListener {
         player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][1]);
         player.setMovementDirection(0, 1);
         player.setCheckForWallCollision(false);
+        animatedGraphics = new AnimatedGraphics(-1 * Constants.COLLISION_IMAGE_HEIGHT, 330, Constants.COLLISION_IMAGE_WIDTH, Constants.COLLISION_IMAGE_HEIGHT, Constants.COLLISION_IMAGE_PATH);
+        animatedGraphics.setAnimationSpeed(LEVEL_DATA[levelNum][1]);
     }
 
     private void resetLevel() {
         passedObstacles = 0;
         userInterface.setPassedObstacles(passedObstacles);
         userInterface.hidePassCount(false);
+        animatedGraphics = null;
+        level.allowHitDetection(true);
         resetPlayer();
         startNextLevel();
     }

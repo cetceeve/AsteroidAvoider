@@ -10,9 +10,12 @@ public final class Constants{
     public static final int CANVAS_HEIGHT = 960;
     public static final int FRAME_RATE = 60;
 
-    public static final String IMAGE_PATH = "./data/assets/ship_bucc_low.png";
-    public static final int IMAGE_WIDTH = 120;
-    public static final int IMAGE_HEIGHT = 105;
+    public static final String PLAYER_IMAGE_PATH = "./data/assets/ship_bucc_low.png";
+    public static final int PLAYER_IMAGE_WIDTH = 120;
+    public static final int PLAYER_IMAGE_HEIGHT = 105;
+    public static final String COLLISION_IMAGE_PATH = "./data/assets/collision.png";
+    public static final int COLLISION_IMAGE_WIDTH = 855;
+    public static final int COLLISION_IMAGE_HEIGHT = 330;
 
     public static final int PLAYER_UP_INPUT = 1;
     public static final int PLAYER_LEFT_INPUT = 2;
@@ -21,7 +24,7 @@ public final class Constants{
     public static final int PLAYER_RESET_INPUT = 5;
     public static final int PLAYER_REPLAY_INPUT = 6;
 
-    public static final int PLAYER_START_X = CANVAS_WIDTH/2 - IMAGE_WIDTH/2;
+    public static final int PLAYER_START_X = CANVAS_WIDTH/2 - PLAYER_IMAGE_WIDTH /2;
     public static final int PLAYER_START_Y = CANVAS_HEIGHT - 200;
 
     public static final int LEVEL_LENGTH = 100;

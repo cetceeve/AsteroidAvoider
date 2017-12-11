@@ -19,6 +19,7 @@ public class Level {
     private int currentObstacle = 0;
     private int currentRow = 0;
     private boolean clearObstacles = false;
+    private boolean allowHitDetection = true;
 
     public Level(GameEventListener gameManager, Collidable player, int obstaclesPerRow, int obstacleSpeed) {
         this.gameManager = gameManager;
@@ -43,8 +44,10 @@ public class Level {
         for (int i = 0; i < obstacles.length; i++) {
             try {
                 obstacles[i].update();
-                if (obstacles[i].hasCollidedWith(player)) {
-                    gameManager.playerCollided();
+                if (allowHitDetection) {
+                    if (obstacles[i].hasCollidedWith(player)) {
+                        gameManager.playerCollided();
+                    }
                 }
                 if (obstacles[i].hasLeftScreen()) {
                     if (clearObstacles) {
@@ -134,5 +137,9 @@ public class Level {
 
     public void setClearObstacles(boolean clearObstacles) {
         this.clearObstacles = clearObstacles;
+    }
+
+    public void allowHitDetection(boolean allowHitDetection) {
+        this.allowHitDetection = allowHitDetection;
     }
 }
