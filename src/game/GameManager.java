@@ -12,12 +12,14 @@ public class GameManager implements GameEventListener {
     private Level level;
     private UserInterface userInterface;
     private Player player;
-    private AnimatedImage animatedImage;
+    private AnimatedImage animatedImageCollision;
+    private AnimatedImage animatedImageYouWin;
 
     private Integer passedObstacles = 0;
-    private int levelNum = 10;
+    private int levelNum = 12;
 
     private boolean playerHasControl = true;
+    private boolean lastLevelComplete = false;
 
     public GameManager() {
         setupGameObjects();
@@ -29,7 +31,8 @@ public class GameManager implements GameEventListener {
         level = new Level(this, player, LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
         userInterface = new UserInterface();
         userInterface.setLevelNum(levelNum + 1);
-        animatedImage = new AnimatedImage(-1 * Constants.COLLISION_IMAGE_HEIGHT, 200, Constants.COLLISION_IMAGE_WIDTH, Constants.COLLISION_IMAGE_HEIGHT, Constants.COLLISION_IMAGE_PATH);
+        animatedImageCollision = new AnimatedImage(-1 * Constants.STANDARD_IMAGE_HEIGHT, 200, Constants.STANDARD_IMAGE_WIDTH, Constants.STANDARD_IMAGE_HEIGHT, Constants.COLLISION_IMAGE_PATH);
+        animatedImageYouWin = new AnimatedImage(-1 * Constants.STANDARD_IMAGE_HEIGHT, 200, Constants.STANDARD_IMAGE_WIDTH, Constants.STANDARD_IMAGE_HEIGHT, Constants.YOU_WIN_IMAGE_PATH);
     }
 
     public void update() {
@@ -40,14 +43,16 @@ public class GameManager implements GameEventListener {
             player.setPlayerMovementSpeed(0);
         }
         userInterface.update();
-        animatedImage.update();
+        animatedImageCollision.update();
+        animatedImageYouWin.update();
     }
 
     public void draw() {
         level.draw();
         userInterface.draw();
         player.draw();
-        animatedImage.draw();
+        animatedImageCollision.draw();
+        animatedImageYouWin.draw();
     }
 
     @Override
@@ -68,18 +73,21 @@ public class GameManager implements GameEventListener {
         if (passedObstacles == Constants.LEVEL_LENGTH) {
             passedObstacles = 0;
             levelNum++;
-            startNextLevel();
-            userInterface.setLevelNum(levelNum + 1);
+            if (levelNum == Constants.LEVEL_NUM) {
+                animatedImageYouWin.startAnimation(Constants.YOU_WIN_IMAGE_SPEED);
+                lastLevelComplete = true;
+            } else {
+                startNextLevel();
+                userInterface.setLevelNum(levelNum + 1);
+            }
         }
         userInterface.setPassedObstacles(passedObstacles);
     }
 
     private void startNextLevel() {
         level.setClearObstacles(false);
-        if (levelNum < Constants.LEVEL_NUM) {
-            player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][2]);
-            level.nextLevel(LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
-        }
+        player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][2]);
+        level.nextLevel(LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
     }
 
     private void collisionAnimation() {
@@ -87,14 +95,14 @@ public class GameManager implements GameEventListener {
         player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][1]);
         player.setMovementDirection(0, 1);
         player.setCheckForWallCollision(false);
-        animatedImage.startAnimation(LEVEL_DATA[levelNum][1]);
+        animatedImageCollision.startAnimation(LEVEL_DATA[levelNum][1]);
     }
 
     private void resetLevel() {
         passedObstacles = 0;
         userInterface.setPassedObstacles(passedObstacles);
         userInterface.hidePassCount(false);
-        animatedImage.reset();
+        animatedImageCollision.reset();
         level.allowHitDetection(true);
         resetPlayer();
         startNextLevel();
@@ -120,7 +128,7 @@ public class GameManager implements GameEventListener {
         LEVEL_DATA[9] = new int[]{6, 5, 6};
         LEVEL_DATA[10] = new int[]{4, 6, 7};
         LEVEL_DATA[11] = new int[]{5, 6, 7};
-        LEVEL_DATA[12] = new int[]{6, 6, 7};
+        LEVEL_DATA[12] = new int[]{3, 6, 7};
     }
 
     public void handleEvent(int inputEvent) {
@@ -146,11 +154,15 @@ public class GameManager implements GameEventListener {
                 }
                 break;
             case (Constants.PLAYER_RESET_INPUT):
-                resetLevel();
+                if (!lastLevelComplete) {
+                    resetLevel();
+                }
                 break;
             case (Constants.PLAYER_REPLAY_INPUT):
+                lastLevelComplete = false;
                 levelNum = 0;
                 userInterface.setLevelNum(levelNum);
+                animatedImageYouWin.reset();
                 resetLevel();
                 break;
             default:
