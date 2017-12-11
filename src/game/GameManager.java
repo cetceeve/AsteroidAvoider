@@ -16,7 +16,7 @@ public class GameManager implements GameEventListener {
     private AnimatedImage animatedImageYouWin;
 
     private Integer passedObstacles = 0;
-    private int levelNum = 12;
+    private int levelNum = 10;
 
     private boolean gameIsPaused = true;
     private boolean playerHasControl = true;
@@ -44,10 +44,10 @@ public class GameManager implements GameEventListener {
                 player.setMovementDirection(0, 0);
                 player.setPlayerMovementSpeed(0);
             }
-            userInterface.update();
             animatedImageCollision.update();
             animatedImageYouWin.update();
         }
+        userInterface.update();
     }
 
     public void draw() {
@@ -122,7 +122,7 @@ public class GameManager implements GameEventListener {
     private void resetGame() {
         lastLevelIsComplete = false;
         levelNum = 0;
-        userInterface.setLevelNum(levelNum);
+        userInterface.setLevelNum(levelNum + 1);
         animatedImageYouWin.reset();
         resetLevel();
     }
@@ -166,17 +166,13 @@ public class GameManager implements GameEventListener {
                 }
                 break;
             case (Constants.PLAYER_RESET_INPUT):
-                if (!lastLevelIsComplete && !gameIsPaused) {
+                if (gameIsPaused) {
+                    gameIsPaused = false;
+                } else if (lastLevelIsComplete) {
+                    resetGame();
+                } else {
                     resetLevel();
                 }
-                break;
-            case (Constants.PLAYER_REPLAY_INPUT):
-                if (!gameIsPaused) {
-                    resetGame();
-                }
-                break;
-            case (Constants.PLAYER_CONTINUE_INPUT):
-                gameIsPaused = false;
                 break;
             case (Constants.PLAYER_PAUSE_INPUT):
                 gameIsPaused = true;

@@ -4,19 +4,20 @@ import constants.Constants;
 import de.ur.mi.util.RandomGenerator;
 import game.GameEventListener;
 
+import java.util.ArrayList;
+
 public class Level {
 
     private GameEventListener gameManager;
     private Collidable player;
     private DeepSpace deepSpace;
     private RandomGenerator randomGenerator;
-    private Obstacle obstacles[];
+    private ArrayList<Obstacle> obstacles;
 
     private int obstaclesPerRow;
     private int obstacleSpeed;
 
     private int updateCallCounter = 0;
-    private int currentObstacle = 0;
     private int currentRow = 0;
     private boolean clearObstacles = false;
     private boolean allowHitDetection = true;
@@ -28,8 +29,8 @@ public class Level {
         this.player = player;
         deepSpace = new DeepSpace(obstacleSpeed);
         randomGenerator = RandomGenerator.getInstance();
+        obstacles  = new ArrayList<>();
         // start level
-        initNextObstacleArray();
         nextRow();
     }
 
@@ -41,35 +42,29 @@ public class Level {
             // counter can be reset
             updateCallCounter = 0;
         }
-        for (int i = 0; i < obstacles.length; i++) {
-            try {
-                obstacles[i].update();
+        for (int i = 0; i < obstacles.size(); i++) {
+                obstacles.get(i).update();
                 if (allowHitDetection) {
-                    if (obstacles[i].hasCollidedWith(player)) {
+                    if (obstacles.get(i).hasCollidedWith(player)) {
                         gameManager.playerCollided();
                     }
                 }
-                if (obstacles[i].hasLeftScreen()) {
+                if (obstacles.get(i).hasLeftScreen()) {
                     if (clearObstacles) {
-                        obstacles[i] = null;
+                        obstacles.remove(i);
                     } else {
-                        resetObstacle(obstacles[i]);
+                        resetObstacle(obstacles.get(i));
                     }
                     // must be last statement!
                     gameManager.playerPassed();
                 }
-            } catch (NullPointerException e) {
-            }
         }
     }
 
     public void draw() {
         deepSpace.draw();
-        for (int i = 0; i < obstacles.length; i++) {
-            try {
-                obstacles[i].draw();
-            } catch (NullPointerException e) {
-            }
+        for (int i = 0; i < obstacles.size(); i++) {
+                obstacles.get(i).draw();
         }
     }
 
@@ -78,23 +73,16 @@ public class Level {
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
         deepSpace.setObstacleSpeed(obstacleSpeed);
-        initNextObstacleArray();
-    }
-
-    private void initNextObstacleArray() {
-        obstacles = new Obstacle[obstaclesPerRow * Constants.VIRTUAL_GRID_ROW_NUM];
+        obstacles.clear();
     }
 
     private void nextRow() {
-        for (int i = currentObstacle; i < currentObstacle + obstaclesPerRow; i++) {
-            // security
-            if (obstacles[i] == null) {
-                obstacles[i] = nextObstacle();
-            }
+        for (int i = 0; i < obstaclesPerRow; i++) {
+            obstacles.add(nextObstacle());
         }
-        currentObstacle += obstaclesPerRow;
         currentRow++;
     }
+
 
     private Obstacle nextObstacle() {
         int obstacleSize = nextObstacleSize();
@@ -131,7 +119,6 @@ public class Level {
 
     private void resetRowCreationController() {
         updateCallCounter = 0;
-        currentObstacle = 0;
         currentRow = 0;
     }
 
