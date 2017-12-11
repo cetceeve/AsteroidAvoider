@@ -3,7 +3,6 @@ package world;
 import constants.Constants;
 import de.ur.mi.util.RandomGenerator;
 import game.GameEventListener;
-
 import java.util.ArrayList;
 
 public class Level {
@@ -20,7 +19,7 @@ public class Level {
     private int updateCallCounter = 0;
     private int currentRow = 0;
     private boolean clearObstacles = false;
-    private boolean allowHitDetection = true;
+    private boolean useHitDetection = true;
 
     public Level(GameEventListener gameManager, Collidable player, int obstaclesPerRow, int obstacleSpeed) {
         this.gameManager = gameManager;
@@ -44,7 +43,7 @@ public class Level {
         }
         for (int i = 0; i < obstacles.size(); i++) {
                 obstacles.get(i).update();
-                if (allowHitDetection) {
+                if (useHitDetection) {
                     if (obstacles.get(i).hasCollidedWith(player)) {
                         gameManager.playerCollided();
                     }
@@ -63,17 +62,18 @@ public class Level {
 
     public void draw() {
         deepSpace.draw();
-        for (int i = 0; i < obstacles.size(); i++) {
-                obstacles.get(i).draw();
+        for (Obstacle obstacle : obstacles) {
+            obstacle.draw();
         }
     }
 
     public void nextLevel(int obstaclesPerRow, int obstacleSpeed) {
+        deepSpace.setObstacleSpeed(obstacleSpeed);
+        obstacles.clear();
         resetRowCreationController();
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
-        deepSpace.setObstacleSpeed(obstacleSpeed);
-        obstacles.clear();
+        clearObstacles = false;
     }
 
     private void nextRow() {
@@ -82,7 +82,6 @@ public class Level {
         }
         currentRow++;
     }
-
 
     private Obstacle nextObstacle() {
         int obstacleSize = nextObstacleSize();
@@ -122,11 +121,15 @@ public class Level {
         currentRow = 0;
     }
 
-    public void setClearObstacles(boolean clearObstacles) {
-        this.clearObstacles = clearObstacles;
+    public void clearObstacles() {
+        clearObstacles = true;
     }
 
-    public void allowHitDetection(boolean allowHitDetection) {
-        this.allowHitDetection = allowHitDetection;
+    public void enableHitDetection() {
+        useHitDetection = true;
+    }
+
+    public void disableHitDetection() {
+        useHitDetection = false;
     }
 }

@@ -41,4 +41,8 @@ public final class Constants{
     public static final int VIRTUAL_GRID_COLUMN_NUM = 7;
     public static final int VIRTUAL_GRID_ROW_NUM = 5;
     public static final int VIRTUAL_GRID_ROW_SPACING = VIRTUAL_GRID_HEIGHT * 2;
+
+    public static final String TOOL_TIP_COLLISION = "press [space] to restart level";
+    public static final String TOOL_TIP_END_SCREEN = "press [space] to restart game";
+    public static final String TOOL_TIP_GAME_PAUSED = "press [space] to continue";
 }

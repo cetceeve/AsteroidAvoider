@@ -35,12 +35,4 @@ public class AnimatedImage {
         animationDirection = 1;
         animationSpeed = 0;
     }
-
-    public void setEndPosY(int endPosY) {
-        this.endPosY = endPosY;
-    }
-
-    public void setAnimationDirection(int animationDirection) {
-        this.animationDirection = animationDirection;
-    }
 }

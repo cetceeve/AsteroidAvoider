@@ -40,10 +40,6 @@ public class DeepSpace {
         }
     }
 
-    public void setObstacleSpeed(int obstacleSpeed) {
-        this.obstacleSpeed = obstacleSpeed;
-    }
-
     private void initParticles() {
         for (int i = 0; i < PARTICLE_NUMBER; i++) {
             int[] rPV = randomParticleValues();
@@ -62,5 +58,9 @@ public class DeepSpace {
         int lineLength = randomGenerator.nextInt(500, 700);
         int particleSpeed = (int)(obstacleSpeed * randomGenerator.nextDouble(4.0, 5.0));
         return new int[]{linePosX, lineStart, lineStart + lineLength, particleSpeed};
+    }
+
+    public void setObstacleSpeed(int obstacleSpeed) {
+        this.obstacleSpeed = obstacleSpeed;
     }
 }

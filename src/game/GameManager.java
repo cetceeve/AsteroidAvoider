@@ -52,17 +52,16 @@ public class GameManager implements GameEventListener {
 
     public void draw() {
         level.draw();
-        userInterface.draw();
         player.draw();
         animatedImageCollision.draw();
         animatedImageYouWin.draw();
+        userInterface.draw();
     }
 
     @Override
     public void playerCollided() {
         playerHasControl = false;
-        level.allowHitDetection(false);
-        userInterface.hidePassCount(true);
+        level.disableHitDetection();
         passedObstacles = 0;
         collisionAnimation();
     }
@@ -71,15 +70,13 @@ public class GameManager implements GameEventListener {
     public void playerPassed() {
         passedObstacles++;
         if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == Constants.LEVEL_LENGTH) {
-            level.setClearObstacles(true);
+            level.clearObstacles();
         }
         if (passedObstacles == Constants.LEVEL_LENGTH) {
             passedObstacles = 0;
             levelNum++;
             if (levelNum == Constants.LEVEL_NUM) {
-                animatedImageYouWin.startAnimation(Constants.YOU_WIN_IMAGE_SPEED);
-                lastLevelIsComplete = true;
-                userInterface.hidePassCount(true);
+                endScreen();
             } else {
                 startNextLevel();
                 userInterface.setLevelNum(levelNum + 1);
@@ -89,25 +86,24 @@ public class GameManager implements GameEventListener {
     }
 
     private void startNextLevel() {
-        level.setClearObstacles(false);
         player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][2]);
         level.nextLevel(LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
     }
 
-    private void collisionAnimation() {
-        level.setClearObstacles(true);
-        player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][1]);
-        player.setMovementDirection(0, 1);
-        player.setCheckForWallCollision(false);
-        animatedImageCollision.startAnimation(LEVEL_DATA[levelNum][1]);
+    private void resetGame() {
+        animatedImageYouWin.reset();
+        lastLevelIsComplete = false;
+        levelNum = 0;
+        userInterface.setLevelNum(levelNum + 1);
+        resetLevel();
     }
 
     private void resetLevel() {
+        animatedImageCollision.reset();
         passedObstacles = 0;
         userInterface.setPassedObstacles(passedObstacles);
-        userInterface.hidePassCount(false);
-        animatedImageCollision.reset();
-        level.allowHitDetection(true);
+        userInterface.showPassedObstacles();
+        level.enableHitDetection();
         resetPlayer();
         startNextLevel();
     }
@@ -115,16 +111,25 @@ public class GameManager implements GameEventListener {
     private void resetPlayer() {
         player.setMovementDirection(0, 0);
         player.setPosition(Constants.PLAYER_START_X, Constants.PLAYER_START_Y);
-        player.setCheckForWallCollision(true);
+        player.enableWallCollision();
         playerHasControl = true;
     }
 
-    private void resetGame() {
-        lastLevelIsComplete = false;
-        levelNum = 0;
-        userInterface.setLevelNum(levelNum + 1);
-        animatedImageYouWin.reset();
-        resetLevel();
+    private void collisionAnimation() {
+        level.clearObstacles();
+        player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][1]);
+        player.setMovementDirection(0, 1);
+        player.disableWallCollision();
+        userInterface.hidePassedObstacles();
+        userInterface.showToolTip(Constants.TOOL_TIP_COLLISION);
+        animatedImageCollision.startAnimation(LEVEL_DATA[levelNum][1]);
+    }
+
+    private void endScreen() {
+        lastLevelIsComplete = true;
+        userInterface.hidePassedObstacles();
+        userInterface.showToolTip(Constants.TOOL_TIP_END_SCREEN);
+        animatedImageYouWin.startAnimation(Constants.YOU_WIN_IMAGE_SPEED);
     }
 
     private void setLevelData() {
@@ -166,6 +171,7 @@ public class GameManager implements GameEventListener {
                 }
                 break;
             case (Constants.PLAYER_RESET_INPUT):
+                userInterface.hideToolTip();
                 if (gameIsPaused) {
                     gameIsPaused = false;
                 } else if (lastLevelIsComplete) {
@@ -175,6 +181,7 @@ public class GameManager implements GameEventListener {
                 }
                 break;
             case (Constants.PLAYER_PAUSE_INPUT):
+                userInterface.showToolTip(Constants.TOOL_TIP_GAME_PAUSED);
                 gameIsPaused = true;
                 break;
             default:
