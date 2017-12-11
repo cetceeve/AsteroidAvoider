@@ -41,8 +41,8 @@ public class Player extends GraphicsObject implements Collidable {
     }
 
     public void moveDown() {
-        movementDirY = 1;
         movementDirX = 0;
+        movementDirY = 1;
     }
 
     public void moveRight() {
@@ -71,8 +71,8 @@ public class Player extends GraphicsObject implements Collidable {
         hitBox[0] = new Point(this.getX() + 59, this.getY() + 2);
         hitBox[1] = new Point(this.getX() + 2, this.getY() + 68);
         hitBox[2] = new Point(this.getX() + 115, this.getY() + 68);
-        hitBox[3] = new Point(this.getX() + 41, this.getY()+ 102);
-        hitBox[4] = new Point(this.getX() + 75, this.getY()+ 102);
+        hitBox[3] = new Point(this.getX() + 41, this.getY() + 102);
+        hitBox[4] = new Point(this.getX() + 75, this.getY() + 102);
         return hitBox;
     }
 
@@ -91,9 +91,13 @@ public class Player extends GraphicsObject implements Collidable {
 
     private void checkWallCollision() {
         if (this.getX() <= 0 || this.getX() + representation.getWidth() >= Constants.CANVAS_WIDTH) {
+            this.move(-1 * movementDirX * playerMovementSpeed, 0);
+            representation.setPosition(this.getX(), this.getY());
             movementDirX = 0;
         }
         if (this.getY() <= 0 || this.getY() + representation.getHeight() >= Constants.CANVAS_HEIGHT) {
+            this.move(0, -1 * movementDirY * playerMovementSpeed);
+            representation.setPosition(this.getX(), this.getY());
             movementDirY = 0;
         }
     }
