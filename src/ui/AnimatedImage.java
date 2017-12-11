@@ -3,14 +3,14 @@ package ui;
 import constants.Constants;
 import de.ur.mi.graphics.Image;
 
-public class AnimatedGraphics{
+public class AnimatedImage {
     private Image image;
     private int endPosY;
     private int animationSpeed = 0;
     private int animationDirection = 1;
     private int startPosY;
 
-    public AnimatedGraphics(int startPosY, int endPosY, int imageWidth, int imageHeight, String imagePath) {
+    public AnimatedImage(int startPosY, int endPosY, int imageWidth, int imageHeight, String imagePath) {
         image = new Image(Constants.CANVAS_WIDTH/2 - imageWidth/2, startPosY, imageWidth, imageHeight, imagePath);
         this.endPosY = endPosY;
         this.startPosY = startPosY;
@@ -26,21 +26,21 @@ public class AnimatedGraphics{
         image.draw();
     }
 
-    public void setEndPosY(int endPosY) {
-        this.endPosY = endPosY;
-    }
-
-    public void setAnimationSpeed(int animationSpeed) {
+    public void startAnimation(int animationSpeed) {
         this.animationSpeed = animationSpeed;
-    }
-
-    public void setAnimationDirection(int animationDirection) {
-        this.animationDirection = animationDirection;
     }
 
     public void reset() {
         image.setY(startPosY);
         animationDirection = 1;
         animationSpeed = 0;
+    }
+
+    public void setEndPosY(int endPosY) {
+        this.endPosY = endPosY;
+    }
+
+    public void setAnimationDirection(int animationDirection) {
+        this.animationDirection = animationDirection;
     }
 }

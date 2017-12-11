@@ -1,7 +1,7 @@
 package game;
 
 import constants.Constants;
-import ui.AnimatedGraphics;
+import ui.AnimatedImage;
 import ui.UserInterface;
 import world.Level;
 import world.Player;
@@ -12,7 +12,7 @@ public class GameManager implements GameEventListener {
     private Level level;
     private UserInterface userInterface;
     private Player player;
-    private AnimatedGraphics animatedGraphics;
+    private AnimatedImage animatedImage;
 
     private Integer passedObstacles = 0;
     private int levelNum = 10;
@@ -29,7 +29,7 @@ public class GameManager implements GameEventListener {
         level = new Level(this, player, LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
         userInterface = new UserInterface();
         userInterface.setLevelNum(levelNum + 1);
-        animatedGraphics = new AnimatedGraphics(-1 * Constants.COLLISION_IMAGE_HEIGHT, 200, Constants.COLLISION_IMAGE_WIDTH, Constants.COLLISION_IMAGE_HEIGHT, Constants.COLLISION_IMAGE_PATH);
+        animatedImage = new AnimatedImage(-1 * Constants.COLLISION_IMAGE_HEIGHT, 200, Constants.COLLISION_IMAGE_WIDTH, Constants.COLLISION_IMAGE_HEIGHT, Constants.COLLISION_IMAGE_PATH);
     }
 
     public void update() {
@@ -40,14 +40,14 @@ public class GameManager implements GameEventListener {
             player.setPlayerMovementSpeed(0);
         }
         userInterface.update();
-        animatedGraphics.update();
+        animatedImage.update();
     }
 
     public void draw() {
         level.draw();
         userInterface.draw();
         player.draw();
-        animatedGraphics.draw();
+        animatedImage.draw();
     }
 
     @Override
@@ -87,14 +87,14 @@ public class GameManager implements GameEventListener {
         player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][1]);
         player.setMovementDirection(0, 1);
         player.setCheckForWallCollision(false);
-        animatedGraphics.setAnimationSpeed(LEVEL_DATA[levelNum][1]);
+        animatedImage.startAnimation(LEVEL_DATA[levelNum][1]);
     }
 
     private void resetLevel() {
         passedObstacles = 0;
         userInterface.setPassedObstacles(passedObstacles);
         userInterface.hidePassCount(false);
-        animatedGraphics.reset();
+        animatedImage.reset();
         level.allowHitDetection(true);
         resetPlayer();
         startNextLevel();
