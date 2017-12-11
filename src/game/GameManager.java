@@ -18,9 +18,9 @@ public class GameManager implements GameEventListener {
     private Integer passedObstacles = 0;
     private int levelNum = 12;
 
-    private boolean pauseGame = true;
+    private boolean gameIsPaused = true;
     private boolean playerHasControl = true;
-    private boolean lastLevelComplete = false;
+    private boolean lastLevelIsComplete = false;
 
     public GameManager() {
         setupGameObjects();
@@ -37,7 +37,7 @@ public class GameManager implements GameEventListener {
     }
 
     public void update() {
-        if (!pauseGame) {
+        if (!gameIsPaused) {
             level.update();
             player.update();
             if (player.hasLeftScreen()) {
@@ -78,7 +78,7 @@ public class GameManager implements GameEventListener {
             levelNum++;
             if (levelNum == Constants.LEVEL_NUM) {
                 animatedImageYouWin.startAnimation(Constants.YOU_WIN_IMAGE_SPEED);
-                lastLevelComplete = true;
+                lastLevelIsComplete = true;
                 userInterface.hidePassCount(true);
             } else {
                 startNextLevel();
@@ -120,7 +120,7 @@ public class GameManager implements GameEventListener {
     }
 
     private void resetGame() {
-        lastLevelComplete = false;
+        lastLevelIsComplete = false;
         levelNum = 0;
         userInterface.setLevelNum(levelNum);
         animatedImageYouWin.reset();
@@ -166,20 +166,20 @@ public class GameManager implements GameEventListener {
                 }
                 break;
             case (Constants.PLAYER_RESET_INPUT):
-                if (!lastLevelComplete && !pauseGame) {
+                if (!lastLevelIsComplete && !gameIsPaused) {
                     resetLevel();
                 }
                 break;
             case (Constants.PLAYER_REPLAY_INPUT):
-                if (!pauseGame) {
+                if (!gameIsPaused) {
                     resetGame();
                 }
                 break;
             case (Constants.PLAYER_CONTINUE_INPUT):
-                pauseGame = false;
+                gameIsPaused = false;
                 break;
             case (Constants.PLAYER_PAUSE_INPUT):
-                pauseGame = true;
+                gameIsPaused = true;
                 break;
             default:
                 break;
