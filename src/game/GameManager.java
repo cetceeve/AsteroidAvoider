@@ -12,10 +12,10 @@ public class GameManager implements GameEventListener {
     private Level level;
     private UserInterface userInterface;
     private Player player;
-    private AnimatedGraphics animatedGraphics = null;
+    private AnimatedGraphics animatedGraphics;
 
     private Integer passedObstacles = 0;
-    private int levelNum = 4;
+    private int levelNum = 10;
 
     private boolean playerHasControl = true;
 
@@ -29,6 +29,7 @@ public class GameManager implements GameEventListener {
         level = new Level(this, player, LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
         userInterface = new UserInterface();
         userInterface.setLevelNum(levelNum + 1);
+        animatedGraphics = new AnimatedGraphics(-1 * Constants.COLLISION_IMAGE_HEIGHT, 200, Constants.COLLISION_IMAGE_WIDTH, Constants.COLLISION_IMAGE_HEIGHT, Constants.COLLISION_IMAGE_PATH);
     }
 
     public void update() {
@@ -39,18 +40,14 @@ public class GameManager implements GameEventListener {
             player.setPlayerMovementSpeed(0);
         }
         userInterface.update();
-        if (animatedGraphics != null) {
-            animatedGraphics.update();
-        }
+        animatedGraphics.update();
     }
 
     public void draw() {
         level.draw();
         userInterface.draw();
         player.draw();
-        if (animatedGraphics != null) {
-            animatedGraphics.draw();
-        }
+        animatedGraphics.draw();
     }
 
     @Override
@@ -90,7 +87,6 @@ public class GameManager implements GameEventListener {
         player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][1]);
         player.setMovementDirection(0, 1);
         player.setCheckForWallCollision(false);
-        animatedGraphics = new AnimatedGraphics(-1 * Constants.COLLISION_IMAGE_HEIGHT, 330, Constants.COLLISION_IMAGE_WIDTH, Constants.COLLISION_IMAGE_HEIGHT, Constants.COLLISION_IMAGE_PATH);
         animatedGraphics.setAnimationSpeed(LEVEL_DATA[levelNum][1]);
     }
 
@@ -98,7 +94,7 @@ public class GameManager implements GameEventListener {
         passedObstacles = 0;
         userInterface.setPassedObstacles(passedObstacles);
         userInterface.hidePassCount(false);
-        animatedGraphics = null;
+        animatedGraphics.reset();
         level.allowHitDetection(true);
         resetPlayer();
         startNextLevel();
