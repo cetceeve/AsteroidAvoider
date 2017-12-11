@@ -14,10 +14,12 @@ public final class Constants{
     public static final int PLAYER_IMAGE_WIDTH = 120;
     public static final int PLAYER_IMAGE_HEIGHT = 105;
     public static final String COLLISION_IMAGE_PATH = "./data/assets/collision.png";
+    public static final int COLLISION_IMAGE_WIDTH = 855;
+    public static final int COLLISION_IMAGE_HEIGHT = 330;
     public static final String YOU_WIN_IMAGE_PATH = "./data/assets/youwin.png";
-    public static final int STANDARD_IMAGE_WIDTH = 855;
-    public static final int STANDARD_IMAGE_HEIGHT = 330;
-    public static final int YOU_WIN_IMAGE_SPEED = 5;
+    public static final int YOU_WIN_IMAGE_WIDTH = 606;
+    public static final int YOU_WIN_IMAGE_HEIGHT = 80;
+    public static final int YOU_WIN_IMAGE_SPEED = 6;
 
     public static final int PLAYER_UP_INPUT = 1;
     public static final int PLAYER_LEFT_INPUT = 2;
@@ -29,10 +31,10 @@ public final class Constants{
     public static final int PLAYER_START_X = CANVAS_WIDTH/2 - PLAYER_IMAGE_WIDTH /2;
     public static final int PLAYER_START_Y = CANVAS_HEIGHT - 200;
 
-    public static final int LEVEL_LENGTH = 20;
+    public static final int LEVEL_LENGTH = 100;
     public static final int LEVEL_NUM = 13;
 
-    public static final int OBSTACLE_MIN_SIZE = 20;
+    public static final int OBSTACLE_MIN_SIZE = 30;
     public static final int OBSTACLE_MAX_SIZE = 90;
     public static final int VIRTUAL_GRID_HEIGHT = 120;
     public static final int VIRTUAL_GRID_WIDTH = 160;

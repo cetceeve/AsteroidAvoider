@@ -67,12 +67,14 @@ public class Player extends GraphicsObject implements Collidable {
 
     @Override
     public Point[] getHitBox() {
-        Point[] hitBox = new Point[5];
+        Point[] hitBox = new Point[7];
         hitBox[0] = new Point(this.getX() + 59, this.getY() + 2);
         hitBox[1] = new Point(this.getX() + 2, this.getY() + 68);
         hitBox[2] = new Point(this.getX() + 115, this.getY() + 68);
         hitBox[3] = new Point(this.getX() + 41, this.getY() + 102);
         hitBox[4] = new Point(this.getX() + 75, this.getY() + 102);
+        hitBox[5] = new Point(this.getX() + 38, this.getY() + 47);
+        hitBox[6] = new Point(this.getX() + 78, this.getY() + 47);
         return hitBox;
     }
 
