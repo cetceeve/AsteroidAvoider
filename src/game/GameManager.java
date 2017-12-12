@@ -18,6 +18,7 @@ public class GameManager implements GameEventListener {
     private Integer passedObstacles = 0;
     private int levelNum = 0;
 
+    private boolean trackPassedObstacles = true;
     private boolean gameIsPaused = true;
     private boolean playerHasControl = true;
     private boolean lastLevelIsComplete = false;
@@ -63,13 +64,15 @@ public class GameManager implements GameEventListener {
     public void playerCollided() {
         playerHasControl = false;
         level.disableHitDetection();
-        passedObstacles = 0;
+        trackPassedObstacles = false;
         collisionAnimation();
     }
 
     @Override
     public void playerPassed() {
-        passedObstacles++;
+        if (trackPassedObstacles) {
+            passedObstacles++;
+        }
         if (gamemode == Constants.Gamemode.challange) {
             if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == Constants.LEVEL_LENGTH) {
                 level.clearObstacles();
@@ -104,8 +107,8 @@ public class GameManager implements GameEventListener {
     private void resetLevel() {
         animatedImageCollision.reset();
         passedObstacles = 0;
+        trackPassedObstacles = true;
         userInterface.setPassedObstacles(passedObstacles);
-        userInterface.showPassedObstacles();
         level.enableHitDetection();
         resetPlayer();
         startNextLevel();
@@ -125,14 +128,12 @@ public class GameManager implements GameEventListener {
         player.setMovementDirection(0, 1);
         player.disableWallCollision();
         player.crashedShip();
-        userInterface.hidePassedObstacles();
         userInterface.showToolTip(Constants.TOOL_TIP_COLLISION);
         animatedImageCollision.startAnimation(LEVEL_DATA[levelNum][1]);
     }
 
     private void endScreen() {
         lastLevelIsComplete = true;
-        userInterface.hidePassedObstacles();
         userInterface.showToolTip(Constants.TOOL_TIP_END_SCREEN);
         animatedImageYouWin.startAnimation(Constants.YOU_WIN_IMAGE_SPEED);
     }

@@ -10,7 +10,6 @@ public class UserInterface {
     private Label toolTip;
     private Integer passedObstacles = 0;
     private Integer levelNum = 1;
-    private boolean hidePassCount = false;
     private boolean hideToolTip = false;
 
     public UserInterface() {
@@ -25,9 +24,7 @@ public class UserInterface {
     }
 
     public void draw() {
-        if (!hidePassCount) {
-            labelPassCount.draw();
-        }
+        labelPassCount.draw();
         labelLevel.draw();
         if (!hideToolTip) {
             toolTip.draw();
@@ -40,14 +37,6 @@ public class UserInterface {
 
     public void setLevelNum(int levelNum) {
         this.levelNum = levelNum;
-    }
-
-    public void hidePassedObstacles() {
-        hidePassCount = true;
-    }
-
-    public void showPassedObstacles() {
-        hidePassCount = false;
     }
 
     public void showToolTip(String toolTipText) {
