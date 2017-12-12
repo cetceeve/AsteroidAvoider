@@ -20,6 +20,9 @@ public final class Constants{
     public static final int YOU_WIN_IMAGE_WIDTH = 606;
     public static final int YOU_WIN_IMAGE_HEIGHT = 80;
     public static final int YOU_WIN_IMAGE_SPEED = 6;
+    public static final String PLAYER_CRASHED_IMAGE_PATH = "./data/assets/explo_bucc.png";
+    public static final int PLAYER_CRASHED_IMAGE_WIDTH = 150;
+    public static final int PLAYER_CRASHED_IMAGE_HEIGHT = 150;
 
     public static final int PLAYER_UP_INPUT = 1;
     public static final int PLAYER_LEFT_INPUT = 2;

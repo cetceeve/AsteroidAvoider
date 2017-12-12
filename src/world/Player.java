@@ -15,7 +15,7 @@ public class Player extends GraphicsObject implements Collidable {
     public Player(double x, double y, int playerMovementSpeed) {
         super(x, y);
         this.playerMovementSpeed = playerMovementSpeed;
-        representation = new Image(x, y, Constants.PLAYER_IMAGE_WIDTH, Constants.PLAYER_IMAGE_HEIGHT, Constants.PLAYER_IMAGE_PATH);
+        newShip();
     }
 
     public void update() {
@@ -93,6 +93,14 @@ public class Player extends GraphicsObject implements Collidable {
 
     public void disableWallCollision() {
         useWallCollision = false;
+    }
+
+    public void crashedShip() {
+        representation = new Image(this.getX(), this.getY(), Constants.PLAYER_CRASHED_IMAGE_WIDTH, Constants.PLAYER_CRASHED_IMAGE_HEIGHT, Constants.PLAYER_CRASHED_IMAGE_PATH);
+    }
+
+    public void newShip() {
+        representation = new Image(this.getX(), this.getY(), Constants.PLAYER_IMAGE_WIDTH, Constants.PLAYER_IMAGE_HEIGHT, Constants.PLAYER_IMAGE_PATH);
     }
 
     private void wallCollision() {

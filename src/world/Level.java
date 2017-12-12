@@ -50,7 +50,14 @@ public class Level {
                 }
                 if (obstacles.get(i).hasLeftScreen()) {
                     if (clearObstacles) {
-                        obstacles.remove(i);
+                        try {
+                            obstacles.remove(i);
+                        } catch (IndexOutOfBoundsException e) {
+                            // this catches a very rare bug that
+                            // can only happen on Level reset if
+                            // obstacles.clear() (line 78) is faster than execution of level.update()
+                            return;
+                        }
                     } else {
                         resetObstacle(obstacles.get(i));
                     }
@@ -62,18 +69,18 @@ public class Level {
 
     public void draw() {
         deepSpace.draw();
-        for (Obstacle obstacle : obstacles) {
-            obstacle.draw();
+        for (int i = 0; i < obstacles.size(); i++) {
+            obstacles.get(i).draw();
         }
     }
 
     public void nextLevel(int obstaclesPerRow, int obstacleSpeed) {
-        deepSpace.setObstacleSpeed(obstacleSpeed);
+        clearObstacles = false;
         obstacles.clear();
+        deepSpace.setObstacleSpeed(obstacleSpeed);
         resetRowCreationController();
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
-        clearObstacles = false;
     }
 
     private void nextRow() {

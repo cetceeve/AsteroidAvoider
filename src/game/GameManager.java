@@ -112,6 +112,7 @@ public class GameManager implements GameEventListener {
         player.setMovementDirection(0, 0);
         player.setPosition(Constants.PLAYER_START_X, Constants.PLAYER_START_Y);
         player.enableWallCollision();
+        player.newShip();
         playerHasControl = true;
     }
 
@@ -120,6 +121,7 @@ public class GameManager implements GameEventListener {
         player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][1]);
         player.setMovementDirection(0, 1);
         player.disableWallCollision();
+        player.crashedShip();
         userInterface.hidePassedObstacles();
         userInterface.showToolTip(Constants.TOOL_TIP_COLLISION);
         animatedImageCollision.startAnimation(LEVEL_DATA[levelNum][1]);
