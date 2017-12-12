@@ -45,7 +45,7 @@ public class StartMenu {
         if (gameModeChallenge.hitTest(x, y)) {
             gameModeChallenge.setColor(Color.GREEN);
             gameModeEndless.setColor(Color.WHITE);
-            gameManager.setGamemode(Constants.Gamemode.challange);
+            gameManager.setGamemode(Constants.Gamemode.challenge);
         }
         if (gameModeEndless.hitTest(x, y)) {
             gameModeEndless.setColor(Color.GREEN);

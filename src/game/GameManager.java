@@ -23,7 +23,7 @@ public class GameManager implements GameEventListener {
     private boolean playerHasControl = true;
     private boolean lastLevelIsComplete = false;
 
-    private Constants.Gamemode gamemode = Constants.Gamemode.challange;
+    private Constants.Gamemode gamemode = Constants.Gamemode.challenge;
 
     public GameManager() {
         setLevelData();
@@ -73,7 +73,7 @@ public class GameManager implements GameEventListener {
         if (trackPassedObstacles) {
             passedObstacles++;
         }
-        if (gamemode == Constants.Gamemode.challange) {
+        if (gamemode == Constants.Gamemode.challenge) {
             if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == Constants.LEVEL_LENGTH) {
                 level.clearObstacles();
             }

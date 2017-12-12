@@ -60,7 +60,7 @@ public class Level {
                 }
             } catch (IndexOutOfBoundsException e) {
                 // this catches a very rare bug that can occur on Level-Reset if
-                // obstacles.clear() (line 78) is faster than execution of level.update()
+                // player resets at the exact point of impact
                 System.out.println(e.getMessage());
             }
         }

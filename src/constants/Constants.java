@@ -51,7 +51,7 @@ public final class Constants{
     public static final String TOOL_TIP_GAME_PAUSED = "press [space] to continue";
 
     public enum Gamemode {
-        challange,
+        challenge,
         endlessLevel
     }
 }
