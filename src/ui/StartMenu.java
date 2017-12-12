@@ -10,22 +10,25 @@ import game.GameManager;
 public class StartMenu {
     private GameManager gameManager;
     private Image mainMenuImage;
-    private InvisibleButton gameModeChallenge;
-    private InvisibleButton gameModeEndless;
-    private InvisibleButton startButton;
+    private InvisibleMarker gameModeChallenge;
+    private InvisibleMarker gameModeEndless;
+    private InvisibleMarker startButton;
+    private InvisibleButton plusButton;
+    private InvisibleButton minusButton;
     private boolean gameStart = false;
-    private Label level;
     private Label levelChooser;
+    private Integer level = 1;
 
     public StartMenu(GameManager gameManager) {
         this.gameManager = gameManager;
         mainMenuImage = new Image(0, 0, Constants.MAIN_MENU_IMAGE);
-        gameModeChallenge = new InvisibleButton(130, 348, 320, 60);
+        gameModeChallenge = new InvisibleMarker(130, 348, 320, 60);
         gameModeChallenge.setColor(Color.GREEN);
-        gameModeEndless = new InvisibleButton(130, 415, 320, 60);
-        startButton = new InvisibleButton(630, 852, 230, 70);
-        //level = new Label(200, 450, "Level", Color.BLACK, 50);
-        //levelChooser = new Label(200, 525, "0", Color.BLACK, 40);
+        gameModeEndless = new InvisibleMarker(130, 415, 320, 60);
+        startButton = new InvisibleMarker(630, 852, 230, 70);
+        levelChooser = new Label(390, 906, "1", Color.WHITE, 60);
+        plusButton = new InvisibleButton(490, 857, 60, 60);
+        minusButton = new InvisibleButton(320, 857, 60, 60);
     }
 
     public void draw() {
@@ -33,8 +36,9 @@ public class StartMenu {
         gameModeChallenge.draw();
         gameModeEndless.draw();
         startButton.draw();
-        //level.draw();
-        //levelChooser.draw();
+        levelChooser.draw();
+        plusButton.draw();
+        minusButton.draw();
     }
 
     public void handleMouseClick(int x, int y) {
@@ -48,8 +52,22 @@ public class StartMenu {
             gameModeChallenge.setColor(Color.WHITE);
             gameManager.setGamemode(Constants.Gamemode.endlessLevel);
         }
+        if (plusButton.hitTest(x,y)) {
+            if (level < Constants.MAX_LEVEL_NUM) {
+                level++;
+                levelChooser.setText(level.toString());
+            }
+        }
+        if (minusButton.hitTest(x,y)) {
+            if (level > 1) {
+                level--;
+                levelChooser.setText(level.toString());
+            }
+        }
         if (startButton.hitTest(x, y)) {
             startButton.setColor(Color.GREEN);
+            gameManager.setLevelNum(level - 1);
+            gameManager.setupGameObjects();
             gameStart = true;
         }
     }

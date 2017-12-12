@@ -7,7 +7,7 @@ import world.Level;
 import world.Player;
 
 public class GameManager implements GameEventListener {
-    private static final int LEVEL_DATA[][] = new int[Constants.LEVEL_NUM][3];
+    private static final int LEVEL_DATA[][] = new int[Constants.MAX_LEVEL_NUM][3];
 
     private Level level;
     private UserInterface userInterface;
@@ -16,7 +16,7 @@ public class GameManager implements GameEventListener {
     private AnimatedImage animatedImageYouWin;
 
     private Integer passedObstacles = 0;
-    private int levelNum = 10;
+    private int levelNum = 0;
 
     private boolean gameIsPaused = true;
     private boolean playerHasControl = true;
@@ -25,17 +25,16 @@ public class GameManager implements GameEventListener {
     private Constants.Gamemode gamemode = Constants.Gamemode.challange;
 
     public GameManager() {
-        setupGameObjects();
+        setLevelData();
+        animatedImageCollision = new AnimatedImage(-1 * Constants.COLLISION_IMAGE_HEIGHT, Constants.CANVAS_HEIGHT / 2 - Constants.COLLISION_IMAGE_HEIGHT / 2, Constants.COLLISION_IMAGE_WIDTH, Constants.COLLISION_IMAGE_HEIGHT, Constants.COLLISION_IMAGE_PATH);
+        animatedImageYouWin = new AnimatedImage(-1 * Constants.YOU_WIN_IMAGE_HEIGHT, Constants.CANVAS_HEIGHT / 2 - Constants.YOU_WIN_IMAGE_HEIGHT / 2, Constants.YOU_WIN_IMAGE_WIDTH, Constants.YOU_WIN_IMAGE_HEIGHT, Constants.YOU_WIN_IMAGE_PATH);
     }
 
-    private void setupGameObjects() {
-        setLevelData();
+    public void setupGameObjects() {
         player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y, LEVEL_DATA[levelNum][2]);
         level = new Level(this, player, LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
         userInterface = new UserInterface();
         userInterface.setLevelNum(levelNum + 1);
-        animatedImageCollision = new AnimatedImage(-1 * Constants.COLLISION_IMAGE_HEIGHT, Constants.CANVAS_HEIGHT/2 - Constants.COLLISION_IMAGE_HEIGHT/2, Constants.COLLISION_IMAGE_WIDTH, Constants.COLLISION_IMAGE_HEIGHT, Constants.COLLISION_IMAGE_PATH);
-        animatedImageYouWin = new AnimatedImage(-1 * Constants.YOU_WIN_IMAGE_HEIGHT, Constants.CANVAS_HEIGHT/2 - Constants.YOU_WIN_IMAGE_HEIGHT/2, Constants.YOU_WIN_IMAGE_WIDTH, Constants.YOU_WIN_IMAGE_HEIGHT, Constants.YOU_WIN_IMAGE_PATH);
     }
 
     public void update() {
@@ -78,7 +77,7 @@ public class GameManager implements GameEventListener {
             if (passedObstacles == Constants.LEVEL_LENGTH) {
                 passedObstacles = 0;
                 levelNum++;
-                if (levelNum == Constants.LEVEL_NUM) {
+                if (levelNum == Constants.MAX_LEVEL_NUM) {
                     endScreen();
                 } else {
                     startNextLevel();

@@ -36,7 +36,7 @@ public final class Constants{
     public static final int PLAYER_START_Y = CANVAS_HEIGHT - 200;
 
     public static final int LEVEL_LENGTH = 100;
-    public static final int LEVEL_NUM = 13;
+    public static final int MAX_LEVEL_NUM = 13;
 
     public static final int OBSTACLE_MIN_SIZE = 30;
     public static final int OBSTACLE_MAX_SIZE = 90;
