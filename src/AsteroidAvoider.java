@@ -1,13 +1,17 @@
 import de.ur.mi.graphicsapp.*;
+
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 import game.GameManager;
 
-import static constants.Constants.*;
+import constants.Constants;
+import ui.StartMenu;
 
 public class AsteroidAvoider extends GraphicsApp {
 
     private GameManager gameManager;
+    private StartMenu startMenu;
 
     public void setup() {
         setupCanvas();
@@ -16,43 +20,54 @@ public class AsteroidAvoider extends GraphicsApp {
 
     private void setupApplication() {
         gameManager = new GameManager();
+        startMenu = new StartMenu(gameManager);
     }
 
     private void setupCanvas() {
-        size(CANVAS_WIDTH, CANVAS_HEIGHT);
-        frameRate(FRAME_RATE);
+        size(Constants.CANVAS_WIDTH, Constants.CANVAS_HEIGHT);
+        frameRate(Constants.FRAME_RATE);
         smooth();
     }
 
     public void draw() {
-        //background(Color.BLACK);
-        gameManager.update();
-        gameManager.draw();
+        if (startMenu.getGameStart()) {
+            gameManager.update();
+            gameManager.draw();
+        } else {
+            startMenu.draw();
+        }
     }
 
     public void keyPressed(KeyEvent e) {
         // translate key presses into input commands for the game manager
         switch (e.getKeyCode()) {
             case (KeyEvent.VK_W):
-                gameManager.handleEvent(PLAYER_UP_INPUT);
+                gameManager.handleEvent(Constants.PLAYER_UP_INPUT);
                 break;
             case (KeyEvent.VK_A):
-                gameManager.handleEvent(PLAYER_LEFT_INPUT);
+                gameManager.handleEvent(Constants.PLAYER_LEFT_INPUT);
                 break;
             case (KeyEvent.VK_S):
-                gameManager.handleEvent(PLAYER_DOWN_INPUT);
+                gameManager.handleEvent(Constants.PLAYER_DOWN_INPUT);
                 break;
             case (KeyEvent.VK_D):
-                gameManager.handleEvent(PLAYER_RIGHT_INPUT);
+                gameManager.handleEvent(Constants.PLAYER_RIGHT_INPUT);
                 break;
             case (KeyEvent.VK_SPACE):
-                gameManager.handleEvent(PLAYER_RESET_INPUT);
+                gameManager.handleEvent(Constants.PLAYER_RESET_INPUT);
                 break;
             case (KeyEvent.VK_ESCAPE):
-                gameManager.handleEvent(PLAYER_PAUSE_INPUT);
+                gameManager.handleEvent(Constants.PLAYER_PAUSE_INPUT);
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (!startMenu.getGameStart()) {
+            startMenu.handleMouseClick(e.getX(), e.getY());
         }
     }
 }

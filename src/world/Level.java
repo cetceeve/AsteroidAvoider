@@ -53,9 +53,9 @@ public class Level {
                         try {
                             obstacles.remove(i);
                         } catch (IndexOutOfBoundsException e) {
-                            // this catches a very rare bug that
-                            // can only happen on Level reset if
+                            // this catches a very rare bug that can occur on Level-Reset if
                             // obstacles.clear() (line 78) is faster than execution of level.update()
+                            System.out.println(e.getMessage());
                             return;
                         }
                     } else {

@@ -22,6 +22,8 @@ public class GameManager implements GameEventListener {
     private boolean playerHasControl = true;
     private boolean lastLevelIsComplete = false;
 
+    private Constants.Gamemode gamemode = Constants.Gamemode.challange;
+
     public GameManager() {
         setupGameObjects();
     }
@@ -69,17 +71,19 @@ public class GameManager implements GameEventListener {
     @Override
     public void playerPassed() {
         passedObstacles++;
-        if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == Constants.LEVEL_LENGTH) {
-            level.clearObstacles();
-        }
-        if (passedObstacles == Constants.LEVEL_LENGTH) {
-            passedObstacles = 0;
-            levelNum++;
-            if (levelNum == Constants.LEVEL_NUM) {
-                endScreen();
-            } else {
-                startNextLevel();
-                userInterface.setLevelNum(levelNum + 1);
+        if (gamemode == Constants.Gamemode.challange) {
+            if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == Constants.LEVEL_LENGTH) {
+                level.clearObstacles();
+            }
+            if (passedObstacles == Constants.LEVEL_LENGTH) {
+                passedObstacles = 0;
+                levelNum++;
+                if (levelNum == Constants.LEVEL_NUM) {
+                    endScreen();
+                } else {
+                    startNextLevel();
+                    userInterface.setLevelNum(levelNum + 1);
+                }
             }
         }
         userInterface.setPassedObstacles(passedObstacles);
@@ -189,5 +193,13 @@ public class GameManager implements GameEventListener {
             default:
                 break;
         }
+    }
+
+    public void setGamemode(Constants.Gamemode gamemode) {
+        this.gamemode = gamemode;
+    }
+
+    public void setLevelNum(int levelNum) {
+        this.levelNum = levelNum;
     }
 }

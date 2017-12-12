@@ -6,9 +6,7 @@ import de.ur.mi.util.RandomGenerator;
 
 public class DeepSpace {
     //constants
-    private static final String DEEP_SPACE_IMAGE = "data/assets/deepspace_blue.jpg";
-    private static final float IMAGE_START_X = -800;
-    private static final float IMAGE_START_Y = -200;
+    private static final String DEEP_SPACE_IMAGE = "data/assets/deepspace_blue.png";
     private static final int PARTICLE_NUMBER = 15;
     // Instance variables
     private RandomGenerator randomGenerator;
@@ -19,7 +17,7 @@ public class DeepSpace {
     public DeepSpace(int obstacleSpeed) {
         randomGenerator = RandomGenerator.getInstance();
         this.obstacleSpeed = obstacleSpeed;
-        deepSpace = new Image(IMAGE_START_X, IMAGE_START_Y, DEEP_SPACE_IMAGE);
+        deepSpace = new Image(0, 0, DEEP_SPACE_IMAGE);
         particles = new Particle[PARTICLE_NUMBER];
         initParticles();
     }

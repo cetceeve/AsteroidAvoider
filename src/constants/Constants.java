@@ -23,6 +23,7 @@ public final class Constants{
     public static final String PLAYER_CRASHED_IMAGE_PATH = "./data/assets/explo_bucc.png";
     public static final int PLAYER_CRASHED_IMAGE_WIDTH = 150;
     public static final int PLAYER_CRASHED_IMAGE_HEIGHT = 150;
+    public static final String MAIN_MENU_IMAGE = "./data/assets/main_menu.png";
 
     public static final int PLAYER_UP_INPUT = 1;
     public static final int PLAYER_LEFT_INPUT = 2;
@@ -48,4 +49,9 @@ public final class Constants{
     public static final String TOOL_TIP_COLLISION = "press [space] to restart level";
     public static final String TOOL_TIP_END_SCREEN = "press [space] to restart game";
     public static final String TOOL_TIP_GAME_PAUSED = "press [space] to continue";
+
+    public enum Gamemode {
+        challange,
+        endlessLevel
+    }
 }
