@@ -42,6 +42,7 @@ public class Level {
             updateCallCounter = 0;
         }
         for (int i = 0; i < obstacles.size(); i++) {
+            try {
                 obstacles.get(i).update();
                 if (useHitDetection) {
                     if (obstacles.get(i).hasCollidedWith(player)) {
@@ -50,20 +51,18 @@ public class Level {
                 }
                 if (obstacles.get(i).hasLeftScreen()) {
                     if (clearObstacles) {
-                        try {
                             obstacles.remove(i);
-                        } catch (IndexOutOfBoundsException e) {
-                            // this catches a very rare bug that can occur on Level-Reset if
-                            // obstacles.clear() (line 78) is faster than execution of level.update()
-                            System.out.println(e.getMessage());
-                            return;
-                        }
                     } else {
                         resetObstacle(obstacles.get(i));
                     }
                     // must be last statement!
                     gameManager.playerPassed();
                 }
+            } catch (IndexOutOfBoundsException e) {
+                // this catches a very rare bug that can occur on Level-Reset if
+                // obstacles.clear() (line 78) is faster than execution of level.update()
+                System.out.println(e.getMessage());
+            }
         }
     }
 
