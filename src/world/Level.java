@@ -41,28 +41,30 @@ public class Level {
             // counter can be reset
             updateCallCounter = 0;
         }
+        Obstacle obstacle;
         for (int i = 0; i < obstacles.size(); i++) {
             try {
-                obstacles.get(i).update();
-                if (useHitDetection) {
-                    if (obstacles.get(i).hasCollidedWith(player)) {
-                        gameManager.playerCollided();
-                    }
-                }
-                if (obstacles.get(i).hasLeftScreen()) {
-                    if (clearObstacles) {
-                            obstacles.remove(i);
-                    } else {
-                        resetObstacle(obstacles.get(i));
-                    }
-                    // must be last statement!
-                    gameManager.playerPassed();
-                }
+                obstacle = obstacles.get(i);
             } catch (IndexOutOfBoundsException e) {
-                // this catches a very rare bug that can occur on Level-Reset if
-                // player resets at the exact point of impact
                 System.out.println(e.getMessage());
+                return;
             }
+            obstacle.update();
+            if (useHitDetection) {
+                if (obstacle.hasCollidedWith(player)) {
+                    gameManager.playerCollided();
+                }
+            }
+            if (obstacle.hasLeftScreen()) {
+                if (clearObstacles) {
+                    obstacles.remove(i);
+                } else {
+                    resetObstacle(obstacle);
+                }
+                // must be last statement!
+                gameManager.playerPassed();
+            }
+
         }
     }
 
@@ -75,9 +77,9 @@ public class Level {
 
     public void nextLevel(int obstaclesPerRow, int obstacleSpeed) {
         clearObstacles = false;
+        resetRowCreationController();
         obstacles.clear();
         deepSpace.setObstacleSpeed(obstacleSpeed);
-        resetRowCreationController();
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
     }

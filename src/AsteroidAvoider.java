@@ -65,7 +65,7 @@ public class AsteroidAvoider extends GraphicsApp {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         if (!startMenu.getGameStart()) {
             startMenu.handleMouseClick(e.getX(), e.getY());
         }

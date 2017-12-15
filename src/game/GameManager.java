@@ -106,12 +106,12 @@ public class GameManager implements GameEventListener {
 
     private void resetLevel() {
         animatedImageCollision.reset();
-        passedObstacles = 0;
         trackPassedObstacles = true;
+        passedObstacles = 0;
         userInterface.setPassedObstacles(passedObstacles);
-        level.enableHitDetection();
         resetPlayer();
         startNextLevel();
+        level.enableHitDetection();
     }
 
     private void resetPlayer() {
@@ -144,19 +144,18 @@ public class GameManager implements GameEventListener {
         LEVEL_DATA[2] = new int[]{3, 5, 6};
         LEVEL_DATA[3] = new int[]{4, 5, 6};
         LEVEL_DATA[4] = new int[]{5, 5, 6};
-        LEVEL_DATA[5] = new int[]{6, 5, 6};
+        LEVEL_DATA[5] = new int[]{3, 6, 7};
         LEVEL_DATA[6] = new int[]{4, 6, 7};
         LEVEL_DATA[7] = new int[]{5, 6, 7};
-        LEVEL_DATA[8] = new int[]{6, 6, 7};
-        LEVEL_DATA[9] = new int[]{3, 8, 9};
-        LEVEL_DATA[10] = new int[]{4, 8, 9};
-        LEVEL_DATA[11] = new int[]{5, 8, 9};
-        LEVEL_DATA[12] = new int[]{3, 10, 11};
-        LEVEL_DATA[13] = new int[]{4, 10, 11};
-        LEVEL_DATA[14] = new int[]{5, 10, 11};
-        LEVEL_DATA[15] = new int[]{3, 12, 13};
-        LEVEL_DATA[16] = new int[]{4, 12, 13};
-        LEVEL_DATA[17] = new int[]{3, 15, 16};
+        LEVEL_DATA[8] = new int[]{3, 8, 9};
+        LEVEL_DATA[9] = new int[]{4, 8, 9};
+        LEVEL_DATA[10] = new int[]{5, 8, 9};
+        LEVEL_DATA[11] = new int[]{3, 10, 11};
+        LEVEL_DATA[12] = new int[]{4, 10, 11};
+        LEVEL_DATA[13] = new int[]{5, 10, 11};
+        LEVEL_DATA[14] = new int[]{3, 12, 13};
+        LEVEL_DATA[15] = new int[]{4, 12, 13};
+        LEVEL_DATA[16] = new int[]{3, 15, 16};
     }
 
     public void handleEvent(int inputEvent) {
