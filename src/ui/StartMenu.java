@@ -8,7 +8,7 @@ import de.ur.mi.graphics.Label;
 import game.GameManager;
 
 /**
- * Menu displayed at game start
+ * menu displayed at game start
  * used to set up some basic game parameters such as
  * - gamemode
  * - level to start with
@@ -45,14 +45,13 @@ public class StartMenu {
         minusButton = new InvisibleButton(320, 857, 60, 60);
     }
 
+    // note that the invisible buttons need not to be drawn
     public void draw() {
         mainMenuImage.draw();
         gameModeChallenge.draw();
         gameModeEndless.draw();
-        startButton.draw();
         levelSelectionLabel.draw();
-        plusButton.draw();
-        minusButton.draw();
+        startButton.draw();
     }
 
     /*

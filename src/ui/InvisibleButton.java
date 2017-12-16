@@ -13,12 +13,6 @@ public class InvisibleButton implements Clickable{
         rect = new Rect(x, y, width, height, Color.WHITE);
     }
 
-    /*
-    public void draw() {
-        rect.draw();
-    }
-    */
-
     @Override
     public boolean hitTest(double x, double y) {
         return rect.hitTest(x, y);
