@@ -4,7 +4,12 @@ import de.ur.mi.graphics.Color;
 import de.ur.mi.graphics.Ellipse;
 import de.ur.mi.graphics.Rect;
 
-public class InvisibleMarker{
+/**
+ * an invisible rectangle and a visible marker
+ * (the two combined make up the class name, i hope it is not too confusing)
+ * can be used like a button
+ */
+public class InvisibleMarker implements Clickable{
     private Rect rect;
     private Ellipse marker;
 
@@ -18,6 +23,8 @@ public class InvisibleMarker{
         marker.draw();
     }
 
+    // both the rectangle and the marker can be clicked on
+    @Override
     public boolean hitTest(double x, double y) {
         return rect.hitTest(x, y) || marker.hitTest(x, y);
     }

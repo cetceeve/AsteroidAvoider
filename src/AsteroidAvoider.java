@@ -8,6 +8,11 @@ import game.GameManager;
 import constants.Constants;
 import ui.StartMenu;
 
+/**
+ * main class of the application
+ * displays either a start menu or a game manager
+ * deals with all system inputs
+ */
 public class AsteroidAvoider extends GraphicsApp {
 
     private GameManager gameManager;
@@ -18,6 +23,8 @@ public class AsteroidAvoider extends GraphicsApp {
         setupApplication();
     }
 
+    // the game manager hosts the game itself
+    // the start menu is used to set up certain game parameters
     private void setupApplication() {
         gameManager = new GameManager();
         startMenu = new StartMenu(gameManager);
@@ -30,6 +37,7 @@ public class AsteroidAvoider extends GraphicsApp {
     }
 
     public void draw() {
+        // switch from start menu to game manager
         if (startMenu.getGameStart()) {
             gameManager.update();
             gameManager.draw();
@@ -38,8 +46,8 @@ public class AsteroidAvoider extends GraphicsApp {
         }
     }
 
+    // translate key presses into input commands for the game manager
     public void keyPressed(KeyEvent e) {
-        // translate key presses into input commands for the game manager
         switch (e.getKeyCode()) {
             case (KeyEvent.VK_W):
                 gameManager.handleEvent(Constants.PLAYER_UP_INPUT);
@@ -64,6 +72,8 @@ public class AsteroidAvoider extends GraphicsApp {
         }
     }
 
+    // translate mouse input
+    // mouse input is only used in start menu
     @Override
     public void mousePressed(MouseEvent e) {
         if (!startMenu.getGameStart()) {
