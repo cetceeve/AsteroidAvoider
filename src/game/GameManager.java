@@ -106,11 +106,11 @@ public class GameManager implements GameEventListener {
 
     private void resetLevel() {
         animatedImageCollision.reset();
+        resetPlayer();
+        startNextLevel();
         trackPassedObstacles = true;
         passedObstacles = 0;
         userInterface.setPassedObstacles(passedObstacles);
-        resetPlayer();
-        startNextLevel();
         level.enableHitDetection();
     }
 
