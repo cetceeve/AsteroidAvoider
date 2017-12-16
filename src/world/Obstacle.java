@@ -5,6 +5,13 @@ import de.ur.mi.geom.Point;
 import de.ur.mi.graphics.Color;
 import de.ur.mi.graphics.Ellipse;
 
+/**
+ * Obstacles are represented by a gray ellipse ('Asteroids').
+ * They always move from the top to the bottom of the screen.
+ * The behaviour of each obstacle is controlled by the Level class.
+ * Obstacle position, size are changed with every 'redraw/reset'.
+ * Obstacle movement speed can be changed for every level.
+ */
 public class Obstacle implements Collidable {
     private Ellipse obstacle;
     private int obstacleSpeed;
@@ -31,6 +38,7 @@ public class Obstacle implements Collidable {
         obstacle.setSize(obstacleSize, obstacleSize);
     }
 
+    // check for a collision by using hitTest() and the other objects (players) HitBox
     @Override
     public boolean hasCollidedWith(Collidable other) {
         return hitTest(other.getHitBox());
@@ -51,6 +59,7 @@ public class Obstacle implements Collidable {
         return false;
     }
 
+    // not needed but part of Collidable interface
     @Override
     public Point[] getHitBox() {
         return null;
