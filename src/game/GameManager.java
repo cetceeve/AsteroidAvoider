@@ -6,6 +6,22 @@ import ui.UserInterface;
 import world.Level;
 import world.Player;
 
+/**
+ * Main class for the behaviour of the game.
+ * It tracks the players progress.
+ *
+ * The GameManager handles
+ * - all events called from level
+ * - all key inputs
+ *
+ * The GameManager controls:
+ * - Level properties and behaviour
+ * - Player representation and behaviour
+ * - User Interface values and behaviour
+ * - all AnimatedImages
+ *
+ * This class holds the values for each level.
+ */
 public class GameManager implements GameEventListener {
     private static final int LEVEL_DATA[][] = new int[Constants.MAX_LEVEL_NUM][3];
 
@@ -15,14 +31,14 @@ public class GameManager implements GameEventListener {
     private AnimatedImage animatedImageCollision;
     private AnimatedImage animatedImageYouWin;
 
-    private Integer passedObstacles = 0;
-    private int levelNum = 0;
-
     private boolean trackPassedObstacles = true;
     private boolean gameIsPaused = true;
     private boolean playerHasControl = true;
     private boolean lastLevelIsComplete = false;
-
+    // values for game progress
+    private Integer passedObstacles = 0;
+    private int levelNum = 0;
+    // standard game mode if nothing is selected
     private Constants.Gamemode gamemode = Constants.Gamemode.challenge;
 
     public GameManager() {
@@ -42,6 +58,7 @@ public class GameManager implements GameEventListener {
         if (!gameIsPaused) {
             level.update();
             player.update();
+            // this if statements is probably unnecessary
             if (player.hasLeftScreen()) {
                 player.setMovementDirection(0, 0);
                 player.setPlayerMovementSpeed(0);
@@ -60,35 +77,46 @@ public class GameManager implements GameEventListener {
         userInterface.draw();
     }
 
+    // game behaviour upon player collision
     @Override
     public void playerCollided() {
-        playerHasControl = false;
-        level.disableHitDetection();
         trackPassedObstacles = false;
+        playerHasControl = false;
+        // make sure the collision animation is only called once
+        level.disableHitDetection();
         collisionAnimation();
     }
 
+    // tracking of player progress
     @Override
     public void playerPassed() {
+        // disabled after collisions
         if (trackPassedObstacles) {
             passedObstacles++;
         }
+        // This is the only change between the two gamemodes
         if (gamemode == Constants.Gamemode.challenge) {
-            if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == Constants.LEVEL_LENGTH) {
-                level.clearObstacles();
-            }
-            if (passedObstacles == Constants.LEVEL_LENGTH) {
-                passedObstacles = 0;
-                levelNum++;
-                if (levelNum == Constants.MAX_LEVEL_NUM) {
-                    endScreen();
-                } else {
-                    startNextLevel();
-                    userInterface.setLevelNum(levelNum + 1);
-                }
-            }
+            levelController();
         }
         userInterface.setPassedObstacles(passedObstacles);
+    }
+
+    // end + starts levels; triggers end screen upon completion of last level
+    private void levelController() {
+        // "LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM" this is the total number of obstacle instances
+        if (passedObstacles + LEVEL_DATA[levelNum][0] * Constants.VIRTUAL_GRID_ROW_NUM == Constants.LEVEL_LENGTH) {
+            level.disableObstacleReset();
+        }
+        if (passedObstacles == Constants.LEVEL_LENGTH) {
+            passedObstacles = 0;
+            levelNum++;
+            if (levelNum == Constants.MAX_LEVEL_NUM) {
+                endScreen();
+            } else {
+                startNextLevel();
+                userInterface.setLevelNum(levelNum + 1);
+            }
+        }
     }
 
     private void startNextLevel() {
@@ -96,6 +124,8 @@ public class GameManager implements GameEventListener {
         level.nextLevel(LEVEL_DATA[levelNum][0], LEVEL_DATA[levelNum][1]);
     }
 
+    // full reset to level 1
+    // only used when completing the last level
     private void resetGame() {
         animatedImageYouWin.reset();
         lastLevelIsComplete = false;
@@ -108,22 +138,31 @@ public class GameManager implements GameEventListener {
         animatedImageCollision.reset();
         resetPlayer();
         startNextLevel();
+        /*
+        startNextLevel() is called here
+        to make sure all obstacles are cleared out
+        before enabling hit detection and tracking progress again
+        (this avoids a bunch of bugs)
+         */
+        level.enableHitDetection();
         trackPassedObstacles = true;
         passedObstacles = 0;
         userInterface.setPassedObstacles(passedObstacles);
-        level.enableHitDetection();
     }
 
     private void resetPlayer() {
+        player.newShip();
         player.setMovementDirection(0, 0);
         player.setPosition(Constants.PLAYER_START_X, Constants.PLAYER_START_Y);
         player.enableWallCollision();
-        player.newShip();
         playerHasControl = true;
     }
 
+    // player slides of screen with broken ship,
+    // game-over image comes down from the top,
+    // asteroids leave the screen
     private void collisionAnimation() {
-        level.clearObstacles();
+        level.disableObstacleReset();
         player.setPlayerMovementSpeed(LEVEL_DATA[levelNum][1]);
         player.setMovementDirection(0, 1);
         player.disableWallCollision();
@@ -133,11 +172,13 @@ public class GameManager implements GameEventListener {
     }
 
     private void endScreen() {
+        // space triggers game reset instead of level reset
         lastLevelIsComplete = true;
         userInterface.showToolTip(Constants.TOOL_TIP_END_SCREEN);
         animatedImageYouWin.startAnimation(Constants.YOU_WIN_IMAGE_SPEED);
     }
 
+    // number of obstacles per row | obstacle movement speed | player movement speed
     private void setLevelData() {
         LEVEL_DATA[0] = new int[]{3, 4, 5};
         LEVEL_DATA[1] = new int[]{4, 4, 5};
@@ -181,6 +222,7 @@ public class GameManager implements GameEventListener {
                 }
                 break;
             case (Constants.PLAYER_RESET_INPUT):
+                // multiple use of spacebar
                 userInterface.hideToolTip();
                 if (gameIsPaused) {
                     gameIsPaused = false;

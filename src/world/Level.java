@@ -34,7 +34,7 @@ public class Level {
     private int currentRow = 0;
 
     // variables for level 'animations'
-    private boolean clearObstacles = false;
+    private boolean useObstacleReset = true;
     private boolean useHitDetection = true;
 
     public Level(GameEventListener gameManager, Collidable player, int obstaclesPerRow, int obstacleSpeed) {
@@ -94,10 +94,10 @@ public class Level {
                 }
             }
             if (obstacle.hasLeftScreen()) {
-                if (clearObstacles) {
-                    obstacles.remove(i);
-                } else {
+                if (useObstacleReset) {
                     resetObstacle(obstacle);
+                } else {
+                    obstacles.remove(i);
                 }
                 // must be last statement!
                 gameManager.playerPassed();
@@ -118,7 +118,7 @@ public class Level {
     // called on level reset or when enough obstacles were passed
     public void nextLevel(int obstaclesPerRow, int obstacleSpeed) {
         // stop removing obstacles from array
-        clearObstacles = false;
+        useObstacleReset = true;
         // clear out current obstacles
         obstacles.clear();
         // set new level parameters
@@ -126,6 +126,7 @@ public class Level {
         this.obstaclesPerRow = obstaclesPerRow;
         this.obstacleSpeed = obstacleSpeed;
         // enable the creation of new rows
+        // this actually "starts" a new level
         resetRowCreationController();
     }
 
@@ -205,8 +206,8 @@ public class Level {
     }
 
     ///////////////////////////////////////////////////////////
-    public void clearObstacles() {
-        clearObstacles = true;
+    public void disableObstacleReset() {
+        useObstacleReset = false;
     }
 
     public void enableHitDetection() {

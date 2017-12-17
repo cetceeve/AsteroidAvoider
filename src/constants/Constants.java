@@ -10,6 +10,7 @@ public final class Constants{
     public static final int CANVAS_HEIGHT = 960;
     public static final int FRAME_RATE = 60;
 
+    // original by robertsspaceindustries.com
     public static final String PLAYER_IMAGE_PATH = "./data/assets/ship_bucc_low.png";
     public static final int PLAYER_IMAGE_WIDTH = 120;
     public static final int PLAYER_IMAGE_HEIGHT = 105;
@@ -20,9 +21,11 @@ public final class Constants{
     public static final int YOU_WIN_IMAGE_WIDTH = 606;
     public static final int YOU_WIN_IMAGE_HEIGHT = 80;
     public static final int YOU_WIN_IMAGE_SPEED = 6;
+    // original by robertsspaceindustries.com
     public static final String PLAYER_CRASHED_IMAGE_PATH = "./data/assets/explo_bucc.png";
     public static final int PLAYER_CRASHED_IMAGE_WIDTH = 150;
     public static final int PLAYER_CRASHED_IMAGE_HEIGHT = 150;
+    // original by robertsspaceindustries.com
     public static final String MAIN_MENU_IMAGE = "./data/assets/main_menu.png";
 
     public static final int PLAYER_UP_INPUT = 1;
